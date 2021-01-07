@@ -16,7 +16,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
   //const backendBaseUrl = 'http://localhost:3333';
-  const backendBaseUrl = 'http://trbok_backend.niklasking.com//:3333';
+  const backendBaseUrl = 'http://trbok_backend.niklasking.com:3333';
 
 function Copyright() {
   return (

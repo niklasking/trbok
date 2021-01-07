@@ -25,7 +25,7 @@ import RevertIcon from "@material-ui/icons/NotInterestedOutlined";
 import Icon from '@material-ui/core/Icon';
 
   //const backendBaseUrl = 'http://localhost:3333';
-  const backendBaseUrl = 'http://trbok_backend.niklasking.com//:3333';
+  const backendBaseUrl = 'http://trbok_backend.niklasking.com:3333';
 
 momentDurationFormatSetup(moment);
 
