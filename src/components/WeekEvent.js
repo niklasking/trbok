@@ -24,6 +24,9 @@ import DoneIcon from "@material-ui/icons/DoneAllTwoTone";
 import RevertIcon from "@material-ui/icons/NotInterestedOutlined";
 import Icon from '@material-ui/core/Icon';
 
+  //const backendBaseUrl = 'http://localhost:3333';
+  const backendBaseUrl = 'http:trbok_backend.niklasking.com//:3333';
+
 momentDurationFormatSetup(moment);
 
 function getDistance(distance) {
@@ -123,7 +126,7 @@ class WeekEvent extends React.Component {
                 forest: 0,
                 path: 0
             }
-            const url = 'http://localhost:3333/api/v1/activities';
+            const url = backendBaseUrl + '/api/v1/activities';
             await axios.post(url, event);
         } else {
             // Existing event
@@ -146,7 +149,7 @@ class WeekEvent extends React.Component {
                 forest: this.state.forest,
                 path: this.state.path               
             }
-            const url = 'http://localhost:3333/api/v1/activities';
+            const url = backendBaseUrl + '/api/v1/activities';
             await axios.patch(url, event);
         }
         this.setState({isEditMode: false});

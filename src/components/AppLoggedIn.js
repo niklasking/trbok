@@ -3,6 +3,9 @@ import axios from 'axios';
 import moment from 'moment';
 import Summary from './Summary';
 
+//const backendBaseUrl = 'http://localhost:3333';
+const backendBaseUrl = 'http:trbok_backend.niklasking.com//:3333';
+
 class AppLoggedIn extends React.Component {
     state = { 
         activities: [],
@@ -10,19 +13,6 @@ class AppLoggedIn extends React.Component {
         dateEnd: moment().endOf('isoWeek').format('YYYY-MM-DD'),
         selectedTab: 'week'
     }
-/*
-    onLoginClick = async () => {
-        if (this.state.loggedInUser === null) {
-            const response = await axios.get('http://localhost:3333/api/v1/login');
-            this.setState({ loggedInUser: response.data, userName: response.data.name });
-//            this.setState({ activities: await this.fetchActivities(this.state.dateStart, this.state.dateEnd) });
-            this.setState({ activities: await this.props.fetchActivities(this.state.dateStart, this.state.dateEnd) });
-        } else {
-            this.setState({ loggedInUser: null, userName: '' });
-            this.setState({ activities: [] });
-        }
-    }
-*/
     onWeekTabClick = async (event) => {
         if (event !== null) {
             event.preventDefault();
@@ -90,7 +80,7 @@ class AppLoggedIn extends React.Component {
     }
     fetchUpdatedActivities = async () => {
         let end = moment(this.state.dateEnd).add(1, 'd').format('YYYY-MM-DD');
-        const url = 'http://localhost:3333/api/v1/activities?dateStart=' + this.state.dateStart + '&dateEnd=' + end  + '&user=' + this.props.loggedInUser._id;
+        const url = backendBaseUrl + '/api/v1/activities?dateStart=' + this.state.dateStart + '&dateEnd=' + end  + '&user=' + this.props.loggedInUser._id;
         const response = await axios.get(url);
         this.setState({activities: response.data});
     }

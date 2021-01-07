@@ -17,6 +17,9 @@ import SignInSide from './SignInSide';
 import AppLoggedIn from './AppLoggedIn';
 import SignUp from './SignUp';
 
+//const backendBaseUrl = 'http://localhost:3333';
+const backendBaseUrl = 'http:trbok_backend.niklasking.com//:3333';
+
 class App extends React.Component {
     state = { 
         loggedInUser: null,
@@ -37,7 +40,7 @@ class App extends React.Component {
     }
     fetchActivities = async (start, end) => {
         end = moment(end).add(1, 'd').format('YYYY-MM-DD');
-        const url = 'http://localhost:3333/api/v1/activities?dateStart=' + start + '&dateEnd=' + end + '&user=' + this.state.loggedInUser._id;
+        const url = backendBaseUrl + '/api/v1/activities?dateStart=' + start + '&dateEnd=' + end + '&user=' + this.state.loggedInUser._id;
         const response = await axios.get(url);
         return response.data;
     }

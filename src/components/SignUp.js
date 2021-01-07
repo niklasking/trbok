@@ -51,6 +51,9 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp() {
   const classes = useStyles();
   const history = useHistory();
+  //const backendBaseUrl = 'http://localhost:3333';
+    const backendBaseUrl = 'http:trbok_backend.niklasking.com//:3333';
+
 
   const onFormSubmit = async (event) => {
     event.preventDefault();
@@ -63,10 +66,14 @@ export default function SignUp() {
         useStrava: useStrava.checked ? true : false,
         private: isPrivate.checked ? true : false
     };
-    const response = await axios.post('http://localhost:3333/api/v1/register', user);
+    const response = await axios.post(backendBaseUrl + '/api/v1/register', user);
     if (response.data.success) {
 //            console.log(response.data.user);
-            history.push('/');
+        if (user.useStrava) {
+            const user = {userId: user._id};
+            axios.post(backendBaseUrl + '/api/v1/registerStrava', user);
+        }
+        history.push('/');
 //        props.setLoggedInUser(response.data.user);
     } else {
         console.log(response.data.message);

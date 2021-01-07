@@ -15,6 +15,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
+  //const backendBaseUrl = 'http://localhost:3333';
+  const backendBaseUrl = 'http:trbok_backend.niklasking.com//:3333';
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -67,7 +70,7 @@ export default function SignInSide(props) {
         event.preventDefault();
         const {email, password, rememberMe } = event.target.elements
 
-        const response = await axios.post('http://localhost:3333/api/v1/login', {username: email.value, password: password.value});
+        const response = await axios.post(backendBaseUrl + '/api/v1/login', {username: email.value, password: password.value});
         if (response.data.success) {
 //            console.log(response.data.user);
             props.setLoggedInUser(response.data.user);
