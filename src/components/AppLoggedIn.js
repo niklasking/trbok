@@ -4,7 +4,7 @@ import moment from 'moment';
 import Summary from './Summary';
 
 //const backendBaseUrl = 'http://localhost:3333';
-const backendBaseUrl = 'http://trbok_backend.niklasking.com:3333';
+const backendBaseUrl = 'https://trbokbackend.niklasking.com';
 
 class AppLoggedIn extends React.Component {
     state = { 

@@ -54,7 +54,7 @@ export default function SignUp() {
   const classes = useStyles();
   const history = useHistory();
   //const backendBaseUrl = 'http://localhost:3333';
-    const backendBaseUrl = 'http://trbok_backend.niklasking.com:3333';
+    const backendBaseUrl = 'https://trbokbackend.niklasking.com';
 
 
   const onFormSubmit = async (event) => {
