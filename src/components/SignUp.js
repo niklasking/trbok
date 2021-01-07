@@ -74,11 +74,11 @@ export default function SignUp() {
         if (user.useStrava) {
             const url = 'https://www.strava.com/oauth/authorize' +
                         '?client_id=' + secret.clientID +
-                        '&redirect_uri=' + 'http://trbok_backend.niklasking.com:3333/stravaCallback' +
-                        '&response_type=' + 'code' +
-                        '&approval_promp=' + 'auto' +
-                        '&scope=' + 'activity:read_all' +
-                        '&state=' + user._id;
+                        '&redirect_uri=http://trbok_backend.niklasking.com:3333/stravaCallback' +
+                        '&response_type=code' +
+                        '&approval_promp=auto' +
+                        '&scope=activity:read_all' +
+                        '&state=' + response.data.user._id;
 
             window.location.href = url;
         
