@@ -70,8 +70,8 @@ export default function SignUp() {
     if (response.data.success) {
 //            console.log(response.data.user);
         if (user.useStrava) {
-            const user = {userId: user._id};
-            axios.post(backendBaseUrl + '/api/v1/registerStrava', user);
+            const updatedUser = {userId: user._id};
+            axios.post(backendBaseUrl + '/api/v1/registerStrava', updatedUser);
         }
 //        history.push('/');
 //        props.setLoggedInUser(response.data.user);
