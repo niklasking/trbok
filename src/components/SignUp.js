@@ -78,7 +78,7 @@ export default function SignUp() {
                         '&response_type=' + 'code' +
                         '&approval_promp=' + 'auto' +
                         '&scope=' + 'activity:read_all' +
-                        '&state=' + user._id
+                        '&state=' + user._id;
 
             window.location.href = url;
         
