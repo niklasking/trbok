@@ -72,14 +72,15 @@ export default function SignUp() {
     if (response.data.success) {
 //            console.log(response.data.user);
         if (user.useStrava) {
-            history.push('https://www.strava.com/oauth/authorize', {
-                client_id: secret.clientID,
-                redirect_uri: 'http://trbok_backend.niklasking.com:3333/stravaCallback',
-                response_type: 'code',
-                approval_prompt: 'auto',
-                scope: 'activity:read_all',
-                state: user._id
-            });
+            const url = 'https://www.strava.com/oauth/authorize' +
+                        '?client_id=' + secret.clientID +
+                        '&redirect_uri=' + 'http://trbok_backend.niklasking.com:3333/stravaCallback' +
+                        '&response_type=' + 'code' +
+                        '&approval_promp=' + 'auto' +
+                        '&scope=' + 'activity:read_all' +
+                        '&state=' + user._id
+
+            window.location.href = url;
         
             //axios.post(backendBaseUrl + '/api/v1/registerStrava', updatedUser);
         }
