@@ -18,6 +18,8 @@ import PoolIcon from '@material-ui/icons/Pool';
 import DirectionsWalkIcon from '@material-ui/icons/DirectionsWalk';
 import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
 import NightsStayIcon from '@material-ui/icons/NightsStay';
+import RowingIcon from '@material-ui/icons/Rowing';
+
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import EditIcon from "@material-ui/icons/EditOutlined";
 import DoneIcon from "@material-ui/icons/DoneAllTwoTone";
@@ -79,6 +81,11 @@ function getTypeIcon(type) {
             return <PoolIcon/>
         case 'Walk':
             return <DirectionsWalkIcon/>
+        case 'Rowing':
+        case 'Kayaking':
+            return <img src={process.env.PUBLIC_URL + '/kayak.png'} alt="Kayak" height={16} width={16} style={{border: "solid black 1px"}}/>
+        case 'NordicSki':
+            return <img src={process.env.PUBLIC_URL + '/ski.png'} alt="Ski" height={16} width={16} style={{border: "solid black 1px"}}/>
         default:
             return type;
     }
