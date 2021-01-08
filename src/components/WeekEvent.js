@@ -119,20 +119,25 @@ class WeekEvent extends React.Component {
     saveEvent = async () => {
         if (this.props.eventData.key.startsWith('empty_')) {
             // New event
+            const ol = this.state.type === 'ol'|| this.state.type === 'night' ? 1 : this.state.ol;
+            const night = this.state.type === 'night' ? 1 : this.state.night;
             const event = {
+                startDate: this.props.dayDate,
+                _id: this.props.eventData.key,
                 date: this.props.eventData.date,
                 user: this.props.user,
                 name: this.state.name,
-                distance: 0,
-                movingTime: 0,
-                ol: 0,
-                night: 0,
-                quality: 0,
-                lsd: 0,
-                strength: 0,
-                alternative: 0,
-                forest: 0,
-                path: 0
+                distance: this.state.distance * 1000,
+                movingTime: getSeconds(this.state.movingTime),
+                type: this.state.type,
+                ol: ol,
+                night: night,
+                quality: this.state.quality,
+                lsd: this.state.lsd,
+                strength: this.state.strength,
+                alternative: this.state.alternative,
+                forest: this.state.forest,
+                path: this.state.path               
             }
             const url = backendBaseUrl + '/api/v1/activities';
             await axios.post(url, event);

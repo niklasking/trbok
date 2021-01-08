@@ -48,7 +48,7 @@ class WeekDay extends React.Component {
                 path: 0
             };
             return (
-                <WeekEvent eventData={eventData} key={'weekEvent_' + eventData.key} user={this.props.user} upDatePage={this.props.upDatePage}/>
+                <WeekEvent dayDate={this.props.date} eventData={eventData} key={'weekEvent_' + eventData.key} user={this.props.user} upDatePage={this.props.upDatePage}/>
             )
         } else {
             let dayEvents = [];
@@ -71,7 +71,7 @@ class WeekDay extends React.Component {
                 forest: this.props.events[0].forest,
                 path: this.props.events[0].path
             };
-            dayEvents.push(<WeekEvent eventData={eventData} key={'weekEvent_' + eventData.key} user={this.props.user} upDatePage={this.props.upDatePage}/>);
+            dayEvents.push(<WeekEvent dayDate={this.props.date} eventData={eventData} key={'weekEvent_' + eventData.key} user={this.props.user} upDatePage={this.props.upDatePage}/>);
 
 
             for (let i = 1; i < this.props.events.length; i++) {
@@ -94,7 +94,7 @@ class WeekDay extends React.Component {
                     forest: this.props.events[i].forest,
                     path: this.props.events[i].path
                 };
-                dayEvents.push(<WeekEvent eventData={eventData} key={'weekEvent_' + eventData.key} user={this.props.user} upDatePage={this.props.upDatePage}/>);
+                dayEvents.push(<WeekEvent dayEvent={this.props.date} eventData={eventData} key={'weekEvent_' + eventData.key} user={this.props.user} upDatePage={this.props.upDatePage}/>);
             }
             return <Fragment>{dayEvents}</Fragment>
         }

@@ -1,0 +1,14 @@
+Develop v.s. Production:
+Change:
+* WeekEvent.js
+* SignInSide.js
+* AppLoggedIn.js
+* App.js
+
+
+Sum time for all types:
+db.activity.aggregate([ { $match: { userStravaId: "16477224" } }, { $group: { _id: "$type" , total: { $sum: "$movingTime" } } } ])
+Time and distance per week:
+db.activity.aggregate([ { $match: { userStravaId: "16477224" } }, { $group: { _id: { year: { $year: "$startDate" }, week: { $week: "$startDate" } }, sumTime: { $sum: "$movingTime" }, sumLength: { $sum: "$distance" } } }, { $sort: { _id: -1 } } ])
+
+
