@@ -83,9 +83,9 @@ function getTypeIcon(type) {
             return <DirectionsWalkIcon/>
         case 'Rowing':
         case 'Kayaking':
-            return <img src={process.env.PUBLIC_URL + '/kayak.png'} alt="Kayak" height={16} width={16} style={{border: "solid black 1px"}}/>
+            return <img src={process.env.PUBLIC_URL + '/kayak.png'} alt="Kayak" height={16} width={16} />
         case 'NordicSki':
-            return <img src={process.env.PUBLIC_URL + '/ski.png'} alt="Ski" height={16} width={16} style={{border: "solid black 1px"}}/>
+            return <img src={process.env.PUBLIC_URL + '/ski.png'} alt="Ski" height={16} width={16} />
         default:
             return type;
     }
