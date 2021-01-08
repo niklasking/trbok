@@ -118,6 +118,7 @@ class WeekEvent extends React.Component {
     }
     saveEvent = async () => {
         if (this.props.eventData.key.startsWith('empty_')) {
+            console.log(this.props.dayDate);
             // New event
             const ol = this.state.type === 'ol'|| this.state.type === 'night' ? 1 : this.state.ol;
             const night = this.state.type === 'night' ? 1 : this.state.night;
