@@ -94,7 +94,7 @@ class WeekDay extends React.Component {
                     forest: this.props.events[i].forest,
                     path: this.props.events[i].path
                 };
-                dayEvents.push(<WeekEvent dayEvent={this.props.date} eventData={eventData} key={'weekEvent_' + eventData.key} user={this.props.user} upDatePage={this.props.upDatePage}/>);
+                dayEvents.push(<WeekEvent dayDate={this.props.date} eventData={eventData} key={'weekEvent_' + eventData.key} user={this.props.user} upDatePage={this.props.upDatePage}/>);
             }
             return <Fragment>{dayEvents}</Fragment>
         }
