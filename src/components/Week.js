@@ -129,6 +129,11 @@ class Week extends React.Component {
                 borderRight: '1px solid gray',
                 padding: '5px'
             },
+            cellPlanned: {
+                borderRight: '1px solid gray',
+                padding: '5px',
+                backgroundColor: 'lightBlue'
+            },
             smallCell: {
                 borderRight: '1px solid gray',
                 padding: '2px',
@@ -139,15 +144,22 @@ class Week extends React.Component {
                 padding: '0',
                 width: '20px'
             },
-                dateCell: {
+            dateCell: {
                 borderRight: '1px solid gray',
                 padding: '5px',
-                width: '80px'
+                width: '80px',
+                backgroundColor: 'lightGray'
             },
             hiddenCell: {
                 borderRight: '1px solid gray',
                 padding: '0',
                 width: '20px'
+            },
+            hiddenCellPlanned: {
+                borderRight: '1px solid gray',
+                padding: '0',
+                width: '20px',
+                backgroundColor: 'lightBlue'
             },
             summaryCell: {
                 borderRight: '1px solid gray',
@@ -173,10 +185,10 @@ class Week extends React.Component {
                             <TableCell rowSpan={2} style={styles.dateCell} align="left">
                                 Datum
                             </TableCell>
-                            {this.state.plannedIsHidden && <TableCell style={styles.hiddenCell}>
+                            {this.state.plannedIsHidden && <TableCell style={styles.hiddenCellPlanned}>
                                     <Button onClick={this.showPlanned}><VisibilityOutlinedIcon/></Button>
                                 </TableCell>}
-                            {!this.state.plannedIsHidden && <TableCell colSpan={4} style={styles.cell}>
+                            {!this.state.plannedIsHidden && <TableCell colSpan={4} style={styles.cellPlanned}>
                                 <Box display="flex" p={1} padding={0} alignitems="center">
                                     <Box p={1} flexGrow={1} padding={0}>
                                         Planerad
@@ -189,11 +201,11 @@ class Week extends React.Component {
                             <TableCell align="left" colSpan={12} style={styles.cell}>Utförd</TableCell>
                         </TableRow>
                         <TableRow>
-                            {this.state.plannedIsHidden && <TableCell style={styles.hiddenCell}></TableCell>}
-                            {!this.state.plannedIsHidden && <TableCell style={styles.cell}>Beskrivning</TableCell>}
-                            {!this.state.plannedIsHidden && <TableCell align="center" style={styles.cell}>Typ</TableCell>}
-                            {!this.state.plannedIsHidden && <TableCell align="right" style={styles.cell}>Längd</TableCell>}
-                            {!this.state.plannedIsHidden && <TableCell align="right" style={styles.cell}>Tid</TableCell>}
+                            {this.state.plannedIsHidden && <TableCell style={styles.hiddenCellPlanned}></TableCell>}
+                            {!this.state.plannedIsHidden && <TableCell style={styles.cellPlanned}>Beskrivning</TableCell>}
+                            {!this.state.plannedIsHidden && <TableCell align="center" style={styles.cellPlanned}>Typ</TableCell>}
+                            {!this.state.plannedIsHidden && <TableCell align="right" style={styles.cellPlanned}>Längd</TableCell>}
+                            {!this.state.plannedIsHidden && <TableCell align="right" style={styles.cellPlanned}>Tid</TableCell>}
                             <TableCell style={styles.cell}>Beskrivning</TableCell>
                             <TableCell align="center" style={styles.cell}>Typ</TableCell>
                             <TableCell align="center" style={styles.smallCell}>OL</TableCell>
