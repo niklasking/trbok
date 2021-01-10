@@ -17,8 +17,8 @@ import SignInSide from './SignInSide';
 import AppLoggedIn from './AppLoggedIn';
 import SignUp from './SignUp';
 
-const backendBaseUrl = 'http://localhost:3333';
-//const backendBaseUrl = 'https://trbokbackend.niklasking.com';
+//const backendBaseUrl = 'http://localhost:3333';
+const backendBaseUrl = 'https://trbokbackend.niklasking.com';
 
 class App extends React.Component {
     state = { 

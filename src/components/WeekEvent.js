@@ -35,8 +35,8 @@ import EditEventDialog from './EditEventDialog';
 import AddNewEventDialog from './AddNewEventDialog';
 import { Cancel } from '@material-ui/icons';
 
-  const backendBaseUrl = 'http://localhost:3333';
-  //const backendBaseUrl = 'https://trbokbackend.niklasking.com';
+  //const backendBaseUrl = 'http://localhost:3333';
+  const backendBaseUrl = 'https://trbokbackend.niklasking.com';
 
 momentDurationFormatSetup(moment);
 
