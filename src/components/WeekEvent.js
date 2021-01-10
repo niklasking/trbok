@@ -121,6 +121,18 @@ class WeekEvent extends React.Component {
         openEditEventDialog: false,
         openDeleteWarningDialog: false
 }
+
+    getStravaEventOneDay = async () => {
+
+        const after = moment(this.props.dayDate + " 00:00:00").unix();
+        const before = moment(this.props.dayDate + " 23:59:59").unix();
+        const url = backendBaseUrl + '/api/v1/strava/activities/between' +
+                    '?before=' + before + '&after=' + after;
+        
+        const response = await axios.get(url);
+        this.props.upDatePage();
+    }
+
     // ***** EDIT EVENT DIALOG *******
     handleCloseEditEventDialog = (value) => {
         this.setState({openEditEventDialog: false});
@@ -137,6 +149,9 @@ class WeekEvent extends React.Component {
                 break;
             case 'deleteEvent':
                 this.setState({openDeleteWarningDialog: true});
+                break;
+            case 'strava':
+                this.getStravaEventOneDay();
                 break;
             default:
         }
