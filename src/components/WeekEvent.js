@@ -127,7 +127,8 @@ class WeekEvent extends React.Component {
         const after = moment(this.props.dayDate + " 00:00:00").unix();
         const before = moment(this.props.dayDate + " 23:59:59").unix();
         const url = backendBaseUrl + '/api/v1/strava/activities/between' +
-                    '?before=' + before + '&after=' + after;
+                    '?before=' + before + '&after=' + after +
+                    '&stravaId=' + this.props.user.stravaId;
         
         const response = await axios.get(url);
         this.props.upDatePage();
