@@ -172,11 +172,11 @@ class WeekEvent extends React.Component {
 
     setEditMode = () => {
         this.setState({name: this.props.eventData.name});
-        if (!this.props.eventData.key.startsWith('empty_')) {
+//        if (!this.props.eventData.key.startsWith('empty_')) {
             this.setState({openEditEventDialog: true});
-        } else {
-            this.setState({isEditing: true});
-        }
+//        } else {
+//            this.setState({openEditEventDialog: true});
+//        }
     }
     handleAddEventClose = async (result) => {
         this.setState({isAdding: false});
@@ -373,7 +373,8 @@ class WeekEvent extends React.Component {
                 {!(this.state.isEditing) && <TableCell style={styles.editCell} align="center">
                         <MoreHorizIcon onClick={this.setEditMode}/>
                     </TableCell>}
-                <EditEventDialog open={this.state.openEditEventDialog} onClose={this.handleCloseEditEventDialog} />
+                {this.props.eventData.key.startsWith('empty_') && <EditEventDialog open={this.state.openEditEventDialog} onClose={this.handleCloseEditEventDialog} emptyDay={true}/>}
+                {!this.props.eventData.key.startsWith('empty_') && <EditEventDialog open={this.state.openEditEventDialog} onClose={this.handleCloseEditEventDialog} emptyDay={false}/>}
                 <Dialog
                     open={this.state.openDeleteWarningDialog}
                     onClose={this.handleCloseDeleteWarningDialogNok}

@@ -34,14 +34,14 @@ function EditEventDialog(props) {
   return (
     <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
       <List>
-        <ListItem autoFocus button onClick={() => handleListItemClick('editEvent')}>
+        {!props.emptyDay && <ListItem autoFocus button onClick={() => handleListItemClick('editEvent')}>
           <ListItemAvatar>
             <Avatar>
               <EditIcon />
             </Avatar>
           </ListItemAvatar>
           <ListItemText primary="Ändra aktiviteten" />
-        </ListItem>
+        </ListItem>}
         <ListItem autoFocus button onClick={() => handleListItemClick('addEvent')}>
           <ListItemAvatar>
             <Avatar>
@@ -50,14 +50,14 @@ function EditEventDialog(props) {
           </ListItemAvatar>
           <ListItemText primary="Lägg till en aktiviteten" />
         </ListItem>
-        <ListItem autoFocus button onClick={() => handleListItemClick('deleteEvent')}>
+        {!props.emptyDay && <ListItem autoFocus button onClick={() => handleListItemClick('deleteEvent')}>
           <ListItemAvatar>
             <Avatar>
               <DeleteIcon />
             </Avatar>
           </ListItemAvatar>
           <ListItemText primary="Ta bort aktiviteten" />
-        </ListItem>
+        </ListItem>}
         <ListItem autoFocus button onClick={() => handleListItemClick('strava')}>
           <ListItemAvatar>
             <Avatar>
