@@ -21,13 +21,20 @@ momentDurationFormatSetup(moment);
 
 class Week extends React.Component {
     state = {
-        plannedIsHidden: false
+        plannedIsHidden: false,
+        performedIsHidden: false
     };
     hidePlanned = () => {
         this.setState({plannedIsHidden: true});
     }
     showPlanned = () => {
         this.setState({plannedIsHidden: false});
+    }
+    hidePerformed = () => {
+        this.setState({performedIsHidden: true});
+    }
+    showPerformed = () => {
+        this.setState({performedIsHidden: false});
     }
     getWeekLength = (events) => {
         let totalDistance = 0;
@@ -121,6 +128,7 @@ class Week extends React.Component {
                     plannedIsHidden={this.state.plannedIsHidden}
                     user={this.props.user}
                     upDatePage={this.props.upDatePage}
+                    performedIsHidden ={this.state.performedIsHidden}
                 />);
             dateToPrint.add(1, 'd');
         }
@@ -198,7 +206,20 @@ class Week extends React.Component {
                                     </Box>
                                 </Box>
                             </TableCell>}
-                            <TableCell align="left" colSpan={12} style={styles.cell}>Utförd</TableCell>
+
+                            {this.state.performedIsHidden && <TableCell style={styles.hiddenCell}>
+                                    <Button onClick={this.showPerformed}><VisibilityOutlinedIcon/></Button>
+                                </TableCell>}
+                            {!this.state.performedIsHidden && <TableCell colSpan={12} style={styles.cell}>
+                                <Box display="flex" p={1} padding={0} alignitems="center">
+                                    <Box p={1} flexGrow={1} padding={0}>
+                                        Utförd
+                                    </Box>
+                                    <Box p={1} padding={0}>
+                                        <Button onClick={this.hidePerformed}><VisibilityOffOutlinedIcon/></Button>
+                                    </Box>
+                                </Box>
+                            </TableCell>}
                         </TableRow>
                         <TableRow>
                             {this.state.plannedIsHidden && <TableCell style={styles.hiddenCellPlanned}></TableCell>}
@@ -206,37 +227,40 @@ class Week extends React.Component {
                             {!this.state.plannedIsHidden && <TableCell align="center" style={styles.cellPlanned}>Typ</TableCell>}
                             {!this.state.plannedIsHidden && <TableCell align="right" style={styles.cellPlanned}>Längd</TableCell>}
                             {!this.state.plannedIsHidden && <TableCell align="right" style={styles.cellPlanned}>Tid</TableCell>}
-                            <TableCell style={styles.cell}>Beskrivning</TableCell>
-                            <TableCell align="center" style={styles.cell}>Typ</TableCell>
-                            <TableCell align="center" style={styles.smallCell}>OL</TableCell>
-                            <TableCell align="center" style={styles.smallCell}>Natt</TableCell>
-                            <TableCell align="center" style={styles.smallCell}>Q</TableCell>
-                            <TableCell align="center" style={styles.smallCell}>LP</TableCell>
-                            <TableCell align="center" style={styles.smallCell}>Sty</TableCell>
-                            <TableCell align="center" style={styles.smallCell}>Alt</TableCell>
-                            <TableCell align="center" style={styles.smallCell}>Skog</TableCell>
-                            <TableCell align="center" style={styles.smallCell}>Stig</TableCell>
-                            <TableCell align="right" style={styles.cell}>Längd</TableCell>
-                            <TableCell align="right" style={styles.cell}>Tid</TableCell>
+
+                                {this.state.performedIsHidden && <TableCell style={styles.hiddenCell}></TableCell>}
+                            {!this.state.performedIsHidden && <TableCell style={styles.cell}>Beskrivning</TableCell>}
+                            {!this.state.performedIsHidden && <TableCell align="center" style={styles.cell}>Typ</TableCell>}
+                            {!this.state.performedIsHidden && <TableCell align="center" style={styles.smallCell}>OL</TableCell>}
+                            {!this.state.performedIsHidden && <TableCell align="center" style={styles.smallCell}>Natt</TableCell>}
+                            {!this.state.performedIsHidden && <TableCell align="center" style={styles.smallCell}>Q</TableCell>}
+                            {!this.state.performedIsHidden && <TableCell align="center" style={styles.smallCell}>LP</TableCell>}
+                            {!this.state.performedIsHidden && <TableCell align="center" style={styles.smallCell}>Sty</TableCell>}
+                            {!this.state.performedIsHidden && <TableCell align="center" style={styles.smallCell}>Alt</TableCell>}
+                            {!this.state.performedIsHidden && <TableCell align="center" style={styles.smallCell}>Skog</TableCell>}
+                            {!this.state.performedIsHidden && <TableCell align="center" style={styles.smallCell}>Stig</TableCell>}
+                            {!this.state.performedIsHidden && <TableCell align="right" style={styles.cell}>Längd</TableCell>}
+                            {!this.state.performedIsHidden && <TableCell align="right" style={styles.cell}>Tid</TableCell>}
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {days}
                         <TableRow key="summaryRow">
                             <TableCell colSpan={2} style={styles.summaryCell}></TableCell>
+                            {!this.state.plannedIsHidden && <TableCell style={styles.summaryCell} colSpan={4}></TableCell>}
                             {this.state.plannedIsHidden && <TableCell style={styles.summaryCell}></TableCell>}
-                            {!this.state.plannedIsHidden && <TableCell colSpan={4} style={styles.summaryCell}></TableCell>}
-                            <TableCell style={styles.summaryCell} colSpan={2}></TableCell>
-                            <TableCell align="center" style={styles.smallSummaryCell}>{this.NoOfOl(this.props.activities)}</TableCell>
-                            <TableCell align="center" style={styles.smallSummaryCell}>{this.NoOfNight(this.props.activities)}</TableCell>
-                            <TableCell align="center" style={styles.smallSummaryCell}>{this.NoOfQuality(this.props.activities)}</TableCell>
-                            <TableCell align="center" style={styles.smallSummaryCell}>{this.NoOfLsd(this.props.activities)}</TableCell>
-                            <TableCell align="center" style={styles.smallSummaryCell}>{this.NoOfStrength(this.props.activities)}</TableCell>
-                            <TableCell align="center" style={styles.smallSummaryCell}>{this.NoOfAlternative(this.props.activities)}</TableCell>
-                            <TableCell align="center" style={styles.smallSummaryCell}>{this.NoOfForest(this.props.activities)}</TableCell>
-                            <TableCell align="center" style={styles.smallSummaryCell}>{this.NoOfPath(this.props.activities)}</TableCell>
-                            <TableCell align="right" style={styles.summaryCell}>{this.getWeekLength(this.props.activities)}</TableCell>
-                            <TableCell align="right" style={styles.summaryCell}>{this.getWeekTime(this.props.activities)}</TableCell>
+                            {!this.state.performedIsHidden && <TableCell colSpan={2} style={styles.summaryCell}></TableCell>}
+                            {!this.state.performedIsHidden && <TableCell align="center" style={styles.smallSummaryCell}>{this.NoOfOl(this.props.activities)}</TableCell>}
+                            {!this.state.performedIsHidden && <TableCell align="center" style={styles.smallSummaryCell}>{this.NoOfNight(this.props.activities)}</TableCell>}
+                            {!this.state.performedIsHidden && <TableCell align="center" style={styles.smallSummaryCell}>{this.NoOfQuality(this.props.activities)}</TableCell>}
+                            {!this.state.performedIsHidden && <TableCell align="center" style={styles.smallSummaryCell}>{this.NoOfLsd(this.props.activities)}</TableCell>}
+                            {!this.state.performedIsHidden && <TableCell align="center" style={styles.smallSummaryCell}>{this.NoOfStrength(this.props.activities)}</TableCell>}
+                            {!this.state.performedIsHidden && <TableCell align="center" style={styles.smallSummaryCell}>{this.NoOfAlternative(this.props.activities)}</TableCell>}
+                            {!this.state.performedIsHidden && <TableCell align="center" style={styles.smallSummaryCell}>{this.NoOfForest(this.props.activities)}</TableCell>}
+                            {!this.state.performedIsHidden && <TableCell align="center" style={styles.smallSummaryCell}>{this.NoOfPath(this.props.activities)}</TableCell>}
+                            {!this.state.performedIsHidden && <TableCell align="right" style={styles.summaryCell}>{this.getWeekLength(this.props.activities)}</TableCell>}
+                            {!this.state.performedIsHidden && <TableCell align="right" style={styles.summaryCell}>{this.getWeekTime(this.props.activities)}</TableCell>}
+                            {this.state.performedIsHidden && <TableCell style={styles.summaryCell}></TableCell>}
                         </TableRow>
                     </TableBody>
                 </Table>

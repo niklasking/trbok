@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import axios from 'axios';
 import moment from 'moment';
@@ -17,8 +17,8 @@ import SignInSide from './SignInSide';
 import AppLoggedIn from './AppLoggedIn';
 import SignUp from './SignUp';
 
-//const backendBaseUrl = 'http://localhost:3333';
-const backendBaseUrl = 'https://trbokbackend.niklasking.com';
+const backendBaseUrl = 'http://localhost:3333';
+//const backendBaseUrl = 'https://trbokbackend.niklasking.com';
 
 class App extends React.Component {
     state = { 
