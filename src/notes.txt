@@ -4,6 +4,7 @@ Change:
 * SignInSide.js
 * AppLoggedIn.js
 * App.js
+* Statistics.js
 
 
 Sum time for all types:

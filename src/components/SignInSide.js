@@ -68,7 +68,8 @@ export default function SignInSide(props) {
 
     const onFormSubmit = async (event) => {
         event.preventDefault();
-        const {email, password, rememberMe } = event.target.elements
+//        const {email, password, rememberMe } = event.target.elements
+        const {email, password } = event.target.elements
 
         const response = await axios.post(backendBaseUrl + '/api/v1/login', {username: email.value, password: password.value});
         if (response.data.success) {
@@ -114,11 +115,11 @@ export default function SignInSide(props) {
               id="password"
               autoComplete="current-password"
             />
-            <FormControlLabel
+            {false && <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Kom ihåg mig"
               name="rememberMe"
-            />
+            />}
             <Button
               type="submit"
               fullWidth

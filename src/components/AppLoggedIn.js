@@ -38,6 +38,10 @@ class AppLoggedIn extends React.Component {
             ) });
         }
     }
+    onStatTabClick = (event) => {
+        event.preventDefault();
+        this.setState({selectedTab: 'stat'});
+    }
     getEarlierWeek = async () => {
         if (this.props.loggedInUser !== null) {
             this.setState({ activities: await this.props.fetchActivities(
@@ -96,6 +100,9 @@ class AppLoggedIn extends React.Component {
                     </a>
                     <a className={this.state.selectedTab === 'month' ? 'item active' : 'item'} href="/" onClick={this.onMonthTabClick}>
                         Månad
+                    </a>
+                    <a className={this.state.selectedTab === 'stat' ? 'item active' : 'item'} href="/" onClick={this.onStatTabClick}>
+                        Statistik
                     </a>
                 </div>
                 <div className="ui bottom attached segment" key="trDataView">

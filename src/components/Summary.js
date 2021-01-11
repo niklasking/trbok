@@ -1,6 +1,7 @@
 import React from 'react';
 import Week from './Week';
 import Month from './Month';
+import Statistics from './Statistics';
 
 const Summary = props => {
     if (props.selectedTab === 'week') {
@@ -21,7 +22,7 @@ const Summary = props => {
                 </div>
             </div>
         );
-    } else {
+    } else if (props.selectedTab === 'month') {
         return (
             <div className="ui grid">
                 <div className="row">
@@ -38,6 +39,18 @@ const Summary = props => {
                 </div>
             </div>
         );
+    } else {
+        // Statistik
+        return (
+            <div className="row">
+            <Statistics
+                activities={props.activities} 
+                dateStart={props.dateStart}
+                dateEnd={props.dateEnd}
+                user={props.user}
+            />
+        </div>
+)
     }
 }
 
