@@ -15,8 +15,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
-  //const backendBaseUrl = 'http://localhost:3333';
-  const backendBaseUrl = 'https://trbokbackend.niklasking.com';
+  const backendBaseUrl = 'http://localhost:3333';
+  //const backendBaseUrl = 'https://trbokbackend.niklasking.com';
 
 function Copyright() {
   return (

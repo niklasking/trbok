@@ -26,6 +26,7 @@ class MonthDay extends React.Component {
             let eventData = {
                 key: 'empty_' + this.props.date,
                 dateRowSpan: 1,
+                isLastEvent: true,
                 date: this.props.date,
                 plannedIsHidden: this.props.plannedIsHidden,
                 name: 'Vila',
@@ -43,13 +44,14 @@ class MonthDay extends React.Component {
                 path: 0
             };
             return (
-                <MonthEvent dayDate={this.props.date} eventData={eventData} key={'weekEvent_' + eventData.key} user={this.props.user} upDatePage={this.props.upDatePage} performedIsHidden={this.props.performedIsHidden}/>
+                <MonthEvent dayDate={this.props.date} dayName={this.props.dayName} eventData={eventData} key={'weekEvent_' + eventData.key} user={this.props.user} upDatePage={this.props.upDatePage} performedIsHidden={this.props.performedIsHidden}/>
             )
         } else {
             let dayEvents = [];
             let eventData = {
                 key: this.props.events[0]._id,
                 dateRowSpan: this.props.events.length,
+                isLastEvent: this.props.events.length === 1 ? true : false,
                 date: this.props.date,
                 plannedIsHidden: this.props.plannedIsHidden,
                 name: this.props.events[0].name,
@@ -66,13 +68,14 @@ class MonthDay extends React.Component {
                 forest: this.props.events[0].forest,
                 path: this.props.events[0].path
             };
-            dayEvents.push(<MonthEvent dayDate={this.props.date} eventData={eventData} key={'weekEvent_' + eventData.key} user={this.props.user} upDatePage={this.props.upDatePage} performedIsHidden={this.props.performedIsHidden}/>);
+            dayEvents.push(<MonthEvent dayDate={this.props.date} dayName={this.props.dayName} eventData={eventData} key={'weekEvent_' + eventData.key} user={this.props.user} upDatePage={this.props.upDatePage} performedIsHidden={this.props.performedIsHidden}/>);
 
 
             for (let i = 1; i < this.props.events.length; i++) {
                 let eventData = {
                     key: this.props.events[i]._id,
                     dateRowSpan: 0,
+                    isLastEvent: i === this.props.events.length - 1 ? true: false,
                     date: this.props.date,
                     plannedIsHidden: this.props.plannedIsHidden,
                     name: this.props.events[i].name,
@@ -89,7 +92,7 @@ class MonthDay extends React.Component {
                     forest: this.props.events[i].forest,
                     path: this.props.events[i].path
                 };
-                dayEvents.push(<MonthEvent dayDate={this.props.date} eventData={eventData} key={'weekEvent_' + eventData.key} user={this.props.user} upDatePage={this.props.upDatePage} performedIsHidden={this.props.performedIsHidden}/>);
+                dayEvents.push(<MonthEvent dayDate={this.props.date} dayName={this.props.dayName} eventData={eventData} key={'weekEvent_' + eventData.key} user={this.props.user} upDatePage={this.props.upDatePage} performedIsHidden={this.props.performedIsHidden}/>);
             }
             return <Fragment>{dayEvents}</Fragment>
         }

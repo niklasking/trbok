@@ -5,28 +5,6 @@ import WeekEvent from './WeekEvent';
 class WeekDay extends React.Component {
 
     render() {
-        const styles = {
-            cell: {
-                borderRight: '1px solid gray',
-                padding: '5px'
-            },
-            dateCell: {
-                borderRight: '1px solid gray',
-                padding: '5px',
-                width: '80px'
-            },
-            editCell: {
-                borderRight: '1px solid gray',
-                padding: '0',
-                width: '20px'
-            },
-            hiddenCell: {
-                borderRight: '1px solid gray',
-                padding: '0',
-                width: '20px'
-            }
-        };
-
         if (this.props.events.length === 0) {
             let eventData = {
                 key: 'empty_' + this.props.date,
@@ -48,7 +26,7 @@ class WeekDay extends React.Component {
                 path: 0
             };
             return (
-                <WeekEvent dayDate={this.props.date} eventData={eventData} key={'weekEvent_' + eventData.key} user={this.props.user} upDatePage={this.props.upDatePage} performedIsHidden={this.props.performedIsHidden}/>
+                <WeekEvent dayDate={this.props.date} dayName={this.props.dayName} eventData={eventData} key={'weekEvent_' + eventData.key} user={this.props.user} upDatePage={this.props.upDatePage} performedIsHidden={this.props.performedIsHidden}/>
             )
         } else {
             let dayEvents = [];
@@ -71,7 +49,7 @@ class WeekDay extends React.Component {
                 forest: this.props.events[0].forest,
                 path: this.props.events[0].path
             };
-            dayEvents.push(<WeekEvent dayDate={this.props.date} eventData={eventData} key={'weekEvent_' + eventData.key} user={this.props.user} upDatePage={this.props.upDatePage} performedIsHidden={this.props.performedIsHidden}/>);
+            dayEvents.push(<WeekEvent dayDate={this.props.date} dayName={this.props.dayName} eventData={eventData} key={'weekEvent_' + eventData.key} user={this.props.user} upDatePage={this.props.upDatePage} performedIsHidden={this.props.performedIsHidden}/>);
 
 
             for (let i = 1; i < this.props.events.length; i++) {
@@ -94,7 +72,7 @@ class WeekDay extends React.Component {
                     forest: this.props.events[i].forest,
                     path: this.props.events[i].path
                 };
-                dayEvents.push(<WeekEvent dayDate={this.props.date} eventData={eventData} key={'weekEvent_' + eventData.key} user={this.props.user} upDatePage={this.props.upDatePage} performedIsHidden={this.props.performedIsHidden}/>);
+                dayEvents.push(<WeekEvent dayDate={this.props.date} dayName={this.props.dayName} eventData={eventData} key={'weekEvent_' + eventData.key} user={this.props.user} upDatePage={this.props.upDatePage} performedIsHidden={this.props.performedIsHidden}/>);
             }
             return <Fragment>{dayEvents}</Fragment>
         }

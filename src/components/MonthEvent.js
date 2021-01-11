@@ -96,8 +96,19 @@ class MonthEvent extends React.Component {
                 borderRight: '1px solid gray',
                 padding: '5px'
             },
+            cellSunday: {
+                borderRight: '1px solid gray',
+                borderBottom: '3px solid gray',
+                padding: '5px'
+            },
             smallCell: {
                 borderRight: '1px solid gray',
+                padding: '2px',
+                width: '30px'
+            },
+            smallCellSunday: {
+                borderRight: '1px solid gray',
+                borderBottom: '3px solid gray',
                 padding: '2px',
                 width: '30px'
             },
@@ -112,8 +123,21 @@ class MonthEvent extends React.Component {
                 width: '80px',
                 backgroundColor: 'lightGray'
             },
+            dateCellSunday: {
+                borderRight: '1px solid gray',
+                borderBottom: '3px solid gray',
+                padding: '5px',
+                width: '80px',
+                backgroundColor: 'lightGray'
+            },
             hiddenCell: {
                 borderRight: '1px solid gray',
+                padding: '0',
+                width: '20px'
+            },
+            hiddenCellSunday: {
+                borderRight: '1px solid gray',
+                borderBottom: '3px solid gray',
                 padding: '0',
                 width: '20px'
             },
@@ -125,34 +149,34 @@ class MonthEvent extends React.Component {
 
         return (
             <TableRow key={this.props.eventData.key}>
-                {this.props.eventData.dateRowSpan > 0 && <TableCell rowSpan={this.props.eventData.dateRowSpan} style={styles.dateCell} align="left">
-                    {this.props.eventData.date}</TableCell>}
+                {this.props.eventData.dateRowSpan > 0 && <TableCell rowSpan={this.props.eventData.dateRowSpan} style={this.props.dayName === 'Söndag' ? styles.dateCellSunday : styles.dateCell} align="left">
+                {this.props.dayName}<br/>{this.props.eventData.date}</TableCell>}
 
-                {this.props.eventData.plannedIsHidden && <TableCell style={styles.hiddenCell}></TableCell>}
-                {!this.props.eventData.plannedIsHidden && <TableCell colSpan="4" style={styles.cell}></TableCell>}
+                {this.props.eventData.plannedIsHidden && <TableCell style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.hiddenCellSunday : styles.hiddenCell}></TableCell>}
+                {!this.props.eventData.plannedIsHidden && <TableCell colSpan="4" style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.cellSunday : styles.cell}></TableCell>}
 
-                {!this.props.performedIsHidden && <TableCell style={styles.cell}>{this.props.eventData.name}</TableCell>}
-                {!this.props.performedIsHidden && <TableCell align="center" style={styles.cell}>{getTypeIcon(this.props.eventData.type)}</TableCell>}
-                {!this.props.performedIsHidden && this.props.eventData.ol === 1 && <TableCell align="center" style={styles.smallCell}><Checkbox checked={true} disabled style={styles.checkbox}/></TableCell>}
-                {!this.props.performedIsHidden && this.props.eventData.ol === 0 && <TableCell align="center" style={styles.smallCell}>&nbsp;</TableCell>}
-                {!this.props.performedIsHidden && this.props.eventData.night === 1 && <TableCell align="center" style={styles.smallCell}><Checkbox checked={true} disabled style={styles.checkbox}/></TableCell>}
-                {!this.props.performedIsHidden && this.props.eventData.night === 0 && <TableCell align="center" style={styles.smallCell}>&nbsp;</TableCell>}
-                {!this.props.performedIsHidden && this.props.eventData.quality === 1 && <TableCell align="center" style={styles.smallCell}><Checkbox checked={true} disabled style={styles.checkbox}/></TableCell>}
-                {!this.props.performedIsHidden && this.props.eventData.quality === 0 && <TableCell align="center" style={styles.smallCell}>&nbsp;</TableCell>}
-                {!this.props.performedIsHidden && this.props.eventData.lsd === 1 && <TableCell align="center" style={styles.smallCell}><Checkbox checked={true} disabled style={styles.checkbox}/></TableCell>}
-                {!this.props.performedIsHidden && this.props.eventData.lsd === 0 && <TableCell align="center" style={styles.smallCell}>&nbsp;</TableCell>}
-                {!this.props.performedIsHidden && this.props.eventData.strength === 1 && <TableCell align="center" style={styles.smallCell}><Checkbox checked={true} disabled style={styles.checkbox}/></TableCell>}
-                {!this.props.performedIsHidden && this.props.eventData.strength === 0 && <TableCell align="center" style={styles.smallCell}>&nbsp;</TableCell>}
-                {!this.props.performedIsHidden && this.props.eventData.alternative === 1 && <TableCell align="center" style={styles.smallCell}><Checkbox checked={true} disabled style={styles.checkbox}/></TableCell>}
-                {!this.props.performedIsHidden && this.props.eventData.alternative === 0 && <TableCell align="center" style={styles.smallCell}>&nbsp;</TableCell>}
-                {!this.props.performedIsHidden && this.props.eventData.forest === 1 && <TableCell align="center" style={styles.smallCell}><Checkbox checked={true} disabled style={styles.checkbox}/></TableCell>}
-                {!this.props.performedIsHidden && this.props.eventData.forest === 0 && <TableCell align="center" style={styles.smallCell}>&nbsp;</TableCell>}
-                {!this.props.performedIsHidden && this.props.eventData.path === 1 && <TableCell align="center" style={styles.smallCell}><Checkbox checked={true} disabled style={styles.checkbox}/></TableCell>}
-                {!this.props.performedIsHidden && this.props.eventData.path === 0 && <TableCell align="center" style={styles.smallCell}>&nbsp;</TableCell>}
-                {!this.props.performedIsHidden && <TableCell align="right" style={styles.cell}>{getDistance(this.props.eventData.distance)}</TableCell>}
-                {!this.props.performedIsHidden && <TableCell align="right" style={styles.cell}>{getTime(this.props.eventData.movingTime)}</TableCell>}
+                {!this.props.performedIsHidden && <TableCell style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.cellSunday : styles.cell}>{this.props.eventData.name}</TableCell>}
+                {!this.props.performedIsHidden && <TableCell align="center" style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.cellSunday : styles.cell}>{getTypeIcon(this.props.eventData.type)}</TableCell>}
+                {!this.props.performedIsHidden && this.props.eventData.ol === 1 && <TableCell align="center" style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.smallCellSunday : styles.smallCell}><Checkbox checked={true} disabled style={styles.checkbox}/></TableCell>}
+                {!this.props.performedIsHidden && this.props.eventData.ol === 0 && <TableCell align="center" style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.smallCellSunday : styles.smallCell}>&nbsp;</TableCell>}
+                {!this.props.performedIsHidden && this.props.eventData.night === 1 && <TableCell align="center" style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.smallCellSunday : styles.smallCell}><Checkbox checked={true} disabled style={styles.checkbox}/></TableCell>}
+                {!this.props.performedIsHidden && this.props.eventData.night === 0 && <TableCell align="center" style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.smallCellSunday : styles.smallCell}>&nbsp;</TableCell>}
+                {!this.props.performedIsHidden && this.props.eventData.quality === 1 && <TableCell align="center" style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.smallCellSunday : styles.smallCell}><Checkbox checked={true} disabled style={styles.checkbox}/></TableCell>}
+                {!this.props.performedIsHidden && this.props.eventData.quality === 0 && <TableCell align="center" style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.smallCellSunday : styles.smallCell}>&nbsp;</TableCell>}
+                {!this.props.performedIsHidden && this.props.eventData.lsd === 1 && <TableCell align="center" style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.smallCellSunday : styles.smallCell}><Checkbox checked={true} disabled style={styles.checkbox}/></TableCell>}
+                {!this.props.performedIsHidden && this.props.eventData.lsd === 0 && <TableCell align="center" style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.smallCellSunday : styles.smallCell}>&nbsp;</TableCell>}
+                {!this.props.performedIsHidden && this.props.eventData.strength === 1 && <TableCell align="center" style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.smallCellSunday : styles.smallCell}><Checkbox checked={true} disabled style={styles.checkbox}/></TableCell>}
+                {!this.props.performedIsHidden && this.props.eventData.strength === 0 && <TableCell align="center" style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.smallCellSunday : styles.smallCell}>&nbsp;</TableCell>}
+                {!this.props.performedIsHidden && this.props.eventData.alternative === 1 && <TableCell align="center" style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.smallCellSunday : styles.smallCell}><Checkbox checked={true} disabled style={styles.checkbox}/></TableCell>}
+                {!this.props.performedIsHidden && this.props.eventData.alternative === 0 && <TableCell align="center" style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.smallCellSunday : styles.smallCell}>&nbsp;</TableCell>}
+                {!this.props.performedIsHidden && this.props.eventData.forest === 1 && <TableCell align="center" style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.smallCellSunday : styles.smallCell}><Checkbox checked={true} disabled style={styles.checkbox}/></TableCell>}
+                {!this.props.performedIsHidden && this.props.eventData.forest === 0 && <TableCell align="center" style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.smallCellSunday : styles.smallCell}>&nbsp;</TableCell>}
+                {!this.props.performedIsHidden && this.props.eventData.path === 1 && <TableCell align="center" style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.smallCellSunday : styles.smallCell}><Checkbox checked={true} disabled style={styles.checkbox}/></TableCell>}
+                {!this.props.performedIsHidden && this.props.eventData.path === 0 && <TableCell align="center" style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.smallCellSunday : styles.smallCell}>&nbsp;</TableCell>}
+                {!this.props.performedIsHidden && <TableCell align="right" style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.cellSunday : styles.cell}>{getDistance(this.props.eventData.distance)}</TableCell>}
+                {!this.props.performedIsHidden && <TableCell align="right" style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.cellSunday : styles.cell}>{getTime(this.props.eventData.movingTime)}</TableCell>}
                 
-                {this.props.performedIsHidden && <TableCell style={styles.cell} colSpan="12"></TableCell>}
+                {this.props.performedIsHidden && <TableCell style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.cellSunday : styles.cell} colSpan="12"></TableCell>}
 
             </TableRow>
         );

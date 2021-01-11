@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import momentDurationFormatSetup from 'moment-duration-format';
+import localization from 'moment/locale/sv';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -124,6 +125,7 @@ class Week extends React.Component {
             days.push(<WeekDay 
                     key={dateToPrint} 
                     date={dateToPrint.format('YYYY-MM-DD')} 
+                    dayName={dateToPrint.locale('sv').format('dddd').charAt(0).toUpperCase() + dateToPrint.locale('sv').format('dddd').slice(1)}
                     events={events} 
                     plannedIsHidden={this.state.plannedIsHidden}
                     user={this.props.user}

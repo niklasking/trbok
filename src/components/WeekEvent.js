@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import moment from 'moment';
 import momentDurationFormatSetup from 'moment-duration-format';
+
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -405,7 +406,7 @@ class WeekEvent extends React.Component {
                     </TableCell>}
 
                 {this.props.eventData.dateRowSpan > 0 && <TableCell rowSpan={this.props.eventData.dateRowSpan} style={styles.dateCell} align="left">
-                    {this.props.eventData.date}</TableCell>}
+                    {this.props.dayName}<br/>{this.props.eventData.date}</TableCell>}
 
                 {this.props.eventData.plannedIsHidden && <TableCell style={styles.hiddenCell}></TableCell>}
                 {!this.props.eventData.plannedIsHidden && <TableCell colSpan="4" style={styles.cell}></TableCell>}

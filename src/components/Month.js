@@ -176,6 +176,7 @@ class Month extends React.Component {
             days.push(<MonthDay 
                 key={dateToPrint} 
                 date={dateToPrint.format('YYYY-MM-DD')} 
+                dayName={dateToPrint.locale('sv').format('dddd').charAt(0).toUpperCase() + dateToPrint.locale('sv').format('dddd').slice(1)}
                 events={events} 
                 plannedIsHidden={this.state.plannedIsHidden}
                 performedIsHidden ={this.state.performedIsHidden}
