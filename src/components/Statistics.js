@@ -58,8 +58,8 @@ class Statistics extends React.Component {
         let categories = [];
         let seriesData = [];
         for (let i = 0; i < response.data.length; i++) {
-            categories.push(response.data[i]._id.year + '-' +response.data[i]._id.week);
-//            seriesData.push(moment.duration(response.data[i].sumTime, "seconds").format("H:mm"));
+//            categories.push(response.data[i]._id.year + '-' +response.data[i]._id.week);
+            categories.push(response.data[i]._id.week);
             seriesData.push(response.data[i].sumTime);
         }
         this.setState({categories: categories});

@@ -2,6 +2,7 @@ Develop v.s. Production:
 Change:
 * WeekEvent.js
 * SignInSide.js
+* SignUp.js
 * AppLoggedIn.js
 * App.js
 * Statistics.js
