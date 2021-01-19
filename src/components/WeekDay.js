@@ -23,7 +23,9 @@ class WeekDay extends React.Component {
                 strength: 0,
                 alternative: 0,
                 forest: 0,
-                path: 0
+                path: 0,
+                skada: this.props.days.length === 0 || this.props.days[0].skada === 0 ? 0: 1, 
+                sjuk: this.props.days.length === 0 || this.props.days[0].sjuk === 0 ? 0: 1 
             };
             return (
                 <WeekEvent dayDate={this.props.date} dayName={this.props.dayName} eventData={eventData} key={'weekEvent_' + eventData.key} user={this.props.user} upDatePage={this.props.upDatePage} performedIsHidden={this.props.performedIsHidden}/>
@@ -47,7 +49,9 @@ class WeekDay extends React.Component {
                 strength: this.props.events[0].strength,
                 alternative: this.props.events[0].alternative,
                 forest: this.props.events[0].forest,
-                path: this.props.events[0].path
+                path: this.props.events[0].path,
+                skada: this.props.days.length === 0 || this.props.days[0].skada === 0 ? 0: 1, 
+                sjuk: this.props.days.length === 0 || this.props.days[0].sjuk === 0 ? 0: 1 
             };
             dayEvents.push(<WeekEvent dayDate={this.props.date} dayName={this.props.dayName} eventData={eventData} key={'weekEvent_' + eventData.key} user={this.props.user} upDatePage={this.props.upDatePage} performedIsHidden={this.props.performedIsHidden}/>);
 
@@ -70,8 +74,10 @@ class WeekDay extends React.Component {
                     strength: this.props.events[i].strength,
                     alternative: this.props.events[i].alternative,
                     forest: this.props.events[i].forest,
-                    path: this.props.events[i].path
-                };
+                    path: this.props.events[i].path,
+                    skada: this.props.days.length === 0 || this.props.days[0].skada === 0 ? 0: 1, 
+                    sjuk: this.props.days.length === 0 || this.props.days[0].sjuk === 0 ? 0: 1 
+                    };
                 dayEvents.push(<WeekEvent dayDate={this.props.date} dayName={this.props.dayName} eventData={eventData} key={'weekEvent_' + eventData.key} user={this.props.user} upDatePage={this.props.upDatePage} performedIsHidden={this.props.performedIsHidden}/>);
             }
             return <Fragment>{dayEvents}</Fragment>

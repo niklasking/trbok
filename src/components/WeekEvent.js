@@ -119,6 +119,8 @@ class WeekEvent extends React.Component {
         alternative: false,
         forest: false,
         path: false,
+        skada: false,
+        sjuk: false,
         openEditEventDialog: false,
         openDeleteWarningDialog: false
 }
@@ -131,7 +133,7 @@ class WeekEvent extends React.Component {
                     '?before=' + before + '&after=' + after +
                     '&stravaId=' + this.props.user.stravaId;
         
-        const response = await axios.get(url);
+        await axios.get(url);
         this.props.upDatePage();
     }
 
@@ -155,6 +157,22 @@ class WeekEvent extends React.Component {
             case 'strava':
                 this.getStravaEventOneDay();
                 break;
+            case 'isSkadad':
+                this.setState({skada: true});
+                this.saveDay(true, this.state.sjuk);
+                break;
+            case 'isNotSkadad':
+                this.setState({skada: false});
+                this.saveDay(false, this.state.sjuk);
+                break;
+            case 'isSjuk':
+                this.setState({sjuk: true});
+                this.saveDay(this.state.skada, true);
+                break;
+            case 'isNotSjuk':
+                this.setState({sjuk: false});
+                this.saveDay(this.state.skada, false);
+                break;
             default:
         }
     };
@@ -173,11 +191,7 @@ class WeekEvent extends React.Component {
 
     setEditMode = () => {
         this.setState({name: this.props.eventData.name});
-//        if (!this.props.eventData.key.startsWith('empty_')) {
             this.setState({openEditEventDialog: true});
-//        } else {
-//            this.setState({openEditEventDialog: true});
-//        }
     }
     handleAddEventClose = async (result) => {
         this.setState({isAdding: false});
@@ -210,7 +224,23 @@ class WeekEvent extends React.Component {
     cancelEditMode = () => {
         this.setState({isEditing: false});
     }
-    saveEvent = async () => {
+    saveDay = async (skada, sjuk) => {
+                const day = {
+                        startDate: this.props.dayDate,
+                        skada: skada,
+                        sjuk: sjuk,
+                        user: this.props.user
+                };
+        
+                const url = backendBaseUrl + '/api/v1/days';
+                await axios.post(url, day);
+        
+                this.setState({isEditMode: false});
+                this.setState({isEditing: false});
+                this.setState({isAdding: false});
+                this.props.upDatePage();
+            }
+            saveEvent = async () => {
 /*
         if (this.validatePlannedDistance()) {
             // true betyder att detta fält INTE är ok.
@@ -229,6 +259,16 @@ class WeekEvent extends React.Component {
             // true betyder att detta fält INTE är ok.
             return
         }
+        const day = {
+                startDate: this.props.dayDate,
+                skada: this.state.skada,
+                sjuk: this.state.sjuk,
+                user: this.props.user
+        };
+
+        const url = backendBaseUrl + '/api/v1/days';
+        await axios.post(url, day);
+
         if (this.props.eventData.key.startsWith('empty_')) {
             // New event
             const night = this.state.type === 'night' ? 1 : this.state.night;
@@ -330,6 +370,8 @@ class WeekEvent extends React.Component {
         this.setState({alternative: this.props.eventData.alternative === 1 ? true : false});
         this.setState({forest: this.props.eventData.forest === 1 ? true : false});
         this.setState({path: this.props.eventData.path === 1 ? true : false});
+        this.setState({skada: this.props.eventData.skada === 1 ? true : false});
+        this.setState({sjuk: this.props.eventData.sjuk === 1 ? true : false});
     }
     render() {
         const styles = {
@@ -339,6 +381,7 @@ class WeekEvent extends React.Component {
             },
             smallCell: {
                 borderRight: '1px solid gray',
+                textAlign: 'center',
                 padding: '2px',
                 width: '30px'
             },
@@ -374,8 +417,8 @@ class WeekEvent extends React.Component {
                 {!(this.state.isEditing) && <TableCell style={styles.editCell} align="center">
                         <MoreHorizIcon onClick={this.setEditMode}/>
                     </TableCell>}
-                {this.props.eventData.key.startsWith('empty_') && <EditEventDialog open={this.state.openEditEventDialog} onClose={this.handleCloseEditEventDialog} emptyDay={true}/>}
-                {!this.props.eventData.key.startsWith('empty_') && <EditEventDialog open={this.state.openEditEventDialog} onClose={this.handleCloseEditEventDialog} emptyDay={false}/>}
+                {this.props.eventData.key.startsWith('empty_') && <EditEventDialog open={this.state.openEditEventDialog} onClose={this.handleCloseEditEventDialog} emptyDay={true} skada={this.state.skada} sjuk={this.state.sjuk}/>}
+                {!this.props.eventData.key.startsWith('empty_') && <EditEventDialog open={this.state.openEditEventDialog} onClose={this.handleCloseEditEventDialog} emptyDay={false} skada={this.state.skada} sjuk={this.state.sjuk}/>}
                 <Dialog
                     open={this.state.openDeleteWarningDialog}
                     onClose={this.handleCloseDeleteWarningDialogNok}
@@ -398,7 +441,7 @@ class WeekEvent extends React.Component {
                     </Button>
                     </DialogActions>
                 </Dialog>
-                {this.state.isAdding && <AddNewEventDialog handleAddEventClose={this.handleAddEventClose} open={this.state.isAdding} dayDate={this.props.dayDate}/>}
+                {this.state.isAdding && <AddNewEventDialog handleAddEventClose={this.handleAddEventClose} open={this.state.isAdding} dayDate={this.props.dayDate} />}
 
                 {this.state.isEditing && <TableCell style={styles.editCell} align="center">
                         <DoneIcon onClick={this.saveEvent}/>
@@ -431,8 +474,14 @@ class WeekEvent extends React.Component {
                 {(!this.state.isEditing && !this.props.performedIsHidden) && this.props.eventData.path === 0 && <TableCell align="center" style={styles.smallCell}>&nbsp;</TableCell>}
                 {(!this.state.isEditing && !this.props.performedIsHidden) && <TableCell align="right" style={styles.cell}>{getDistance(this.props.eventData.distance)}</TableCell>}
                 {(!this.state.isEditing && !this.props.performedIsHidden) && <TableCell align="right" style={styles.cell}>{getTime(this.props.eventData.movingTime)}</TableCell>}
+
+                {(this.props.eventData.dateRowSpan > 0 && (!this.state.isEditing && !this.props.performedIsHidden) && this.props.eventData.skada === 1) && <TableCell rowSpan={this.props.eventData.dateRowSpan} style={styles.smallCell} align="left"><Checkbox checked={true} disabled style={styles.checkbox}/></TableCell>}
+                {(this.props.eventData.dateRowSpan > 0 && (!this.state.isEditing && !this.props.performedIsHidden) && this.props.eventData.skada === 0) && <TableCell rowSpan={this.props.eventData.dateRowSpan} style={styles.smallCell} align="left">&nbsp;</TableCell>}
+                {(this.props.eventData.dateRowSpan > 0 && (!this.state.isEditing && !this.props.performedIsHidden) && this.props.eventData.sjuk === 1) && <TableCell rowSpan={this.props.eventData.dateRowSpan} style={styles.smallCell} align="left"><Checkbox checked={true} disabled style={styles.checkbox}/></TableCell>}
+                {(this.props.eventData.dateRowSpan > 0 && (!this.state.isEditing && !this.props.performedIsHidden) && this.props.eventData.sjuk === 0) && <TableCell rowSpan={this.props.eventData.dateRowSpan} style={styles.smallCell} align="left">&nbsp;</TableCell>}
+
                 
-                {this.props.performedIsHidden && <TableCell style={styles.cell} colSpan="12"></TableCell>}
+                {this.props.performedIsHidden && <TableCell style={styles.cell} colSpan="14"></TableCell>}
 
                 {(this.state.isEditing && !this.props.performedIsHidden) && <TableCell style={styles.cell}><TextField variant="outlined" multiline={true} fullWidth={true} rows={3} value={this.state.name} onChange={(e) => this.setState({ name: e.target.value })} name="nameField"/></TableCell>}
                 {(this.state.isEditing && !this.props.performedIsHidden) && <TableCell style={styles.cell}><Select defaultValue={this.props.eventData.type} onChange={(e) => this.setState({ type: e.target.value })}><MenuItem value="ol"><img src={process.env.PUBLIC_URL + '/olskarm.png'} alt="OL" height={16} width={16}/><span>OL</span></MenuItem><MenuItem value="night"><NightsStayIcon/><span>Natt-OL</span></MenuItem><MenuItem value="Run"><DirectionsRunOutlinedIcon/><span>Löpning</span></MenuItem><MenuItem value="Ride"><DirectionsBikeOutlinedIcon/><span>Cykel</span></MenuItem><MenuItem value="VirtualRide"><DirectionsBikeOutlinedIcon/><span>Cykel inne</span></MenuItem><MenuItem value="WeightTraining"><FitnessCenterOutlinedIcon/><span>Styrketräning</span></MenuItem><MenuItem value="Swim"><PoolIcon/><span>Simning</span></MenuItem><MenuItem value="Workout"><AccessibilityNewIcon/><span>Annat</span></MenuItem><MenuItem value="NordicSki"><img src={process.env.PUBLIC_URL + '/ski.png'} alt="Ski" height={16} width={16}/><span>Skidor</span></MenuItem><MenuItem value="RollerSki"><img src={process.env.PUBLIC_URL + '/ski.png'} alt="Rullskidor" height={16} width={16}/><span>Rullskidor</span></MenuItem><MenuItem value="Kayaking"><img src={process.env.PUBLIC_URL + '/kayak.png'} alt="Kayak" height={16} width={16}/><span>Kajak</span></MenuItem><MenuItem value="Walk"><DirectionsWalkIcon/><span>Gång</span></MenuItem></Select></TableCell>}
@@ -446,6 +495,10 @@ class WeekEvent extends React.Component {
                 {(this.state.isEditing && !this.props.performedIsHidden) && <TableCell align="center" style={styles.smallCell}><Checkbox checked={this.state.path} onChange={(e) => this.setState({ path: e.target.checked })} style={styles.checkbox}/></TableCell>}
                 {(this.state.isEditing && !this.props.performedIsHidden) && <TableCell style={styles.dataCell}><TextField variant="outlined" fullWidth={true} value={this.state.distance} onChange={this.correctDistance} error={this.validateDistance()} helperText={this.validateDistance() ? 'Fel' : ' '}/></TableCell>}
                 {(this.state.isEditing && !this.props.performedIsHidden) && <TableCell style={styles.dataCell}><TextField variant="outlined" fullWidth={true} value={this.state.movingTime} onChange={this.correctMovingTime} error={this.validateMovingTime()} helperText={this.validateMovingTime() ? 'Fel' : ' '}/></TableCell>}
+
+                {(this.props.eventData.dateRowSpan > 0 && (this.state.isEditing && !this.props.performedIsHidden)) && <TableCell rowSpan={this.props.eventData.dateRowSpan} align="center" style={styles.smallCell}><Checkbox checked={this.state.skada} onChange={(e) => this.setState({ skada: e.target.checked })} style={styles.checkbox}/></TableCell>}
+                {(this.props.eventData.dateRowSpan > 0 && (this.state.isEditing && !this.props.performedIsHidden)) && <TableCell rowSpan={this.props.eventData.dateRowSpan} align="center" style={styles.smallCell}><Checkbox checked={this.state.sjuk} onChange={(e) => this.setState({ sjuk: e.target.checked })} style={styles.checkbox}/></TableCell>}
+
             </TableRow>
         );
     }

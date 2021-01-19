@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 
 import Avatar from '@material-ui/core/Avatar';
@@ -68,15 +68,19 @@ export default function SignInSide(props) {
 
     const onFormSubmit = async (event) => {
         event.preventDefault();
-//        const {email, password, rememberMe } = event.target.elements
         const {email, password } = event.target.elements
 
         const response = await axios.post(backendBaseUrl + '/api/v1/login', {username: email.value, password: password.value});
         if (response.data.success) {
-//            console.log(response.data.user);
             props.setLoggedInUser(response.data.user);
+          if (event.target.rememberMe.checked) {
+//            localStorage.setItem('user', response.data.user._id);
+            localStorage.setItem("user", JSON.stringify(response.data.user));
+          } else {
+            localStorage.removeItem("user");
+          }
         } else {
-            console.log(response.data.message);
+            console.log("Login failure: " + response.data.message);
         }
     }
 
@@ -115,11 +119,11 @@ export default function SignInSide(props) {
               id="password"
               autoComplete="current-password"
             />
-            {false && <FormControlLabel
+            <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Kom ihåg mig"
               name="rememberMe"
-            />}
+            />
             <Button
               type="submit"
               fullWidth

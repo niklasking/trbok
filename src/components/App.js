@@ -20,16 +20,23 @@ import SignUp from './SignUp';
 //const backendBaseUrl = 'http://localhost:3333';
 const backendBaseUrl = 'https://trbokbackend.niklasking.com';
 
+
 class App extends React.Component {
     state = { 
         loggedInUser: null,
         userName: ''
     }
+    componentDidMount() {
+        const alreadyLoggedInUser = localStorage.getItem("user");
+        if (alreadyLoggedInUser) {
+            const foundUser = JSON.parse(alreadyLoggedInUser);
+            this.setLoggedInUser(foundUser);
+        }
+    }
 
     setLoggedInUser = (user) => {
         this.setState({loggedInUser: user});
         this.setState({userName: user.name});
-
     }
     onLogoutClick = () => {
         this.setState({loggedInUser: null});
@@ -41,6 +48,12 @@ class App extends React.Component {
     fetchActivities = async (start, end) => {
         end = moment(end).add(1, 'd').format('YYYY-MM-DD');
         const url = backendBaseUrl + '/api/v1/activities?dateStart=' + start + '&dateEnd=' + end + '&user=' + this.state.loggedInUser._id;
+        const response = await axios.get(url);
+        return response.data;
+    }
+    fetchDays = async (start, end) => {
+        end = moment(end).add(1, 'd').format('YYYY-MM-DD');
+        const url = backendBaseUrl + '/api/v1/days?dateStart=' + start + '&dateEnd=' + end + '&user=' + this.state.loggedInUser._id;
         const response = await axios.get(url);
         return response.data;
     }
@@ -69,7 +82,7 @@ class App extends React.Component {
                     </div>
                     <div>
                         <Switch>
-                            {this.state.loggedInUser !== null && <Route exact path="/" render={(props)=><AppLoggedIn loggedInUser={this.state.loggedInUser} fetchActivities={this.fetchActivities}/>}/>}
+                            {this.state.loggedInUser !== null && <Route exact path="/" render={(props)=><AppLoggedIn loggedInUser={this.state.loggedInUser} fetchActivities={this.fetchActivities} fetchDays={this.fetchDays}/>}/>}
                             {this.state.loggedInUser === null && <Route exact path='/' render={(props)=><SignInSide setLoggedInUser={this.setLoggedInUser}/>} />}
                             <Route exact path='/register' component={SignUp} />
                         </Switch>

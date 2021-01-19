@@ -14,6 +14,7 @@ const Summary = props => {
                 <div className="row">
                 <Week 
                     activities={props.activities} 
+                    days={props.days}
                     dateStart={props.dateStart}
                     dateEnd={props.dateEnd}
                     user={props.user}
@@ -24,14 +25,15 @@ const Summary = props => {
         );
     } else if (props.selectedTab === 'month') {
         return (
-            <div className="ui grid">
+            <div className="ui grid" style={{padding: 10}}>
                 <div className="row">
-                    <div className="ui primary button left floated column three wide" onClick={props.getEarlierMonth}>&lt;&lt; Tidigare</div>
-                    <div className="ui primary button right floated column three wide" onClick={props.getLaterMonth}>Senare &gt;&gt;</div>
+                    <div className="ui primary button left floated column two wide" onClick={props.getEarlierMonth}>&lt;&lt; Tidigare</div>
+                    <div className="ui primary button right floated column two wide" onClick={props.getLaterMonth}>Senare &gt;&gt;</div>
                 </div>
                 <div className="row">
                     <Month 
                         activities={props.activities} 
+                        days={props.days}
                         dateStart={props.dateStart}
                         dateEnd={props.dateEnd}
                         user={props.user}

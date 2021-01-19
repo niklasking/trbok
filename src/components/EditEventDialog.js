@@ -10,7 +10,11 @@ import Dialog from '@material-ui/core/Dialog';
 import EditIcon from "@material-ui/icons/EditOutlined";
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
-
+import AccessibleForwardIcon from '@material-ui/icons/AccessibleForward';
+import SentimentSatisfiedOutlinedIcon from '@material-ui/icons/SentimentSatisfiedOutlined';
+import SentimentDissatisfiedOutlinedIcon from '@material-ui/icons/SentimentDissatisfiedOutlined';
+import DirectionsRunOutlinedIcon from '@material-ui/icons/DirectionsRunOutlined';
+import LocalHospitalOutlinedIcon from '@material-ui/icons/LocalHospitalOutlined';
 /*
 const useStyles = makeStyles({
   avatar: {
@@ -42,7 +46,7 @@ function EditEventDialog(props) {
           </ListItemAvatar>
           <ListItemText primary="Ändra aktiviteten" />
         </ListItem>}
-        <ListItem autoFocus button onClick={() => handleListItemClick('addEvent')}>
+        <ListItem button onClick={() => handleListItemClick('addEvent')}>
           <ListItemAvatar>
             <Avatar>
               <AddIcon />
@@ -50,7 +54,7 @@ function EditEventDialog(props) {
           </ListItemAvatar>
           <ListItemText primary="Lägg till en aktiviteten" />
         </ListItem>
-        {!props.emptyDay && <ListItem autoFocus button onClick={() => handleListItemClick('deleteEvent')}>
+        {!props.emptyDay && <ListItem button onClick={() => handleListItemClick('deleteEvent')}>
           <ListItemAvatar>
             <Avatar>
               <DeleteIcon />
@@ -58,7 +62,7 @@ function EditEventDialog(props) {
           </ListItemAvatar>
           <ListItemText primary="Ta bort aktiviteten" />
         </ListItem>}
-        <ListItem autoFocus button onClick={() => handleListItemClick('strava')}>
+        <ListItem button onClick={() => handleListItemClick('strava')}>
           <ListItemAvatar>
             <Avatar>
             <img src={process.env.PUBLIC_URL + '/strava.png'} alt="Strava" height={39} width={39} />
@@ -66,6 +70,38 @@ function EditEventDialog(props) {
           </ListItemAvatar>
           <ListItemText primary="Synka från Strava" />
         </ListItem>
+        {!props.skada && <ListItem button onClick={() => handleListItemClick('isSkadad')}>
+          <ListItemAvatar>
+            <Avatar>
+              <AccessibleForwardIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary="Jag är skadad" /><SentimentDissatisfiedOutlinedIcon/>
+        </ListItem>}
+        {props.skada && <ListItem button onClick={() => handleListItemClick('isNotSkadad')}>
+          <ListItemAvatar>
+            <Avatar>
+              <DirectionsRunOutlinedIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary="Jag är hel" /><SentimentSatisfiedOutlinedIcon/>
+        </ListItem>}
+        {!props.sjuk && <ListItem button onClick={() => handleListItemClick('isSjuk')}>
+          <ListItemAvatar>
+            <Avatar>
+              <LocalHospitalOutlinedIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary="Jag är sjuk" /><SentimentDissatisfiedOutlinedIcon/>
+        </ListItem>}
+        {props.sjuk && <ListItem button onClick={() => handleListItemClick('isNotSjuk')}>
+          <ListItemAvatar>
+            <Avatar>
+              <DirectionsRunOutlinedIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary="Jag är frisk" /><SentimentSatisfiedOutlinedIcon/>
+        </ListItem>}
       </List>
     </Dialog>
   );
