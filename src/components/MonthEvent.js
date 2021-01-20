@@ -17,7 +17,16 @@ import NightsStayIcon from '@material-ui/icons/NightsStay';
 momentDurationFormatSetup(moment);
 
 function getDistance(distance) {
+    if (distance === undefined) {
+        return "";
+    }
     if (distance === 0) {
+        return ""
+    }
+    if (distance === '') {
+        return ""
+    }
+    if (distance === "0") {
         return ""
     }
     if (distance < 1000) {
@@ -26,7 +35,19 @@ function getDistance(distance) {
     return Math.round(distance*100/1000)/100 + " km";
 }
 function getTime(time) {
+    if (time === undefined) {
+        return '';
+    }
+    if (time === null) {
+        return '';
+    }
+    if (time === '') {
+        return '';
+    }
     if (time === 0) {
+        return '';
+    }
+    if (time === "0") {
         return '';
     }
     return moment.duration(time, "seconds").format("H:mm");
@@ -64,7 +85,7 @@ function getTypeIcon(type) {
 class MonthEvent extends React.Component {
     state = { 
         name: '',
-        movingTime: 0,
+        movingTime: "0",
         distance: 0,
         type: '',
         ol: false,
@@ -74,12 +95,19 @@ class MonthEvent extends React.Component {
         strength: false,
         alternative: false,
         forest: false,
-        path: false
+        path: false,
+        skada: false,
+        sjuk: false,
+        namePlanned: '',
+        distancePlanned: 0,
+        movingTimePlanned: "0",
+        typePlanned: ''
 }
 
     componentDidMount() {
+        this.setState({name: this.props.eventData.name === null ? '' : this.props.eventData.name});
         this.setState({movingTime: getTime(this.props.eventData.movingTime)});
-        this.setState({distance: Math.round(this.props.eventData.distance*100/1000)/100});
+        this.setState({distance: this.props.eventData.distance});
         this.setState({type: this.props.eventData.type});
         this.setState({ol: this.props.eventData.ol === 1 ? true : false});
         this.setState({night: this.props.eventData.night === 1 ? true : false});
@@ -89,6 +117,12 @@ class MonthEvent extends React.Component {
         this.setState({alternative: this.props.eventData.alternative === 1 ? true : false});
         this.setState({forest: this.props.eventData.forest === 1 ? true : false});
         this.setState({path: this.props.eventData.path === 1 ? true : false});
+        this.setState({skada: this.props.eventData.skada === 1 ? true : false});
+        this.setState({sjuk: this.props.eventData.sjuk === 1 ? true : false});
+        this.setState({movingTimePlanned: (this.props.eventData.movingTimePlanned === null || this.props.eventData.movingTimePlanned === undefined) ? '' : getTime(this.props.eventData.movingTimePlanned)});
+        this.setState({distancePlanned: (this.props.eventData.distancePlanned === null || this.props.eventData.distancePlanned === undefined) ? '' : this.props.eventData.distancePlanned});
+        this.setState({typePlanned: this.props.eventData.typePlanned === null ? '' : this.props.eventData.typePlanned});
+        this.setState({namePlanned: this.props.eventData.namePlanned === null ? '' : this.props.eventData.namePlanned});
     }
     render() {
         const styles = {
@@ -104,13 +138,15 @@ class MonthEvent extends React.Component {
             smallCell: {
                 borderRight: '1px solid gray',
                 padding: '2px',
-                width: '30px'
+                width: '30px',
+                textAlign: 'center'
             },
             smallCellSunday: {
                 borderRight: '1px solid gray',
                 borderBottom: '3px solid gray',
                 padding: '2px',
-                width: '30px'
+                width: '30px',
+                textAlign: 'center'
             },
             dataCell: {
                 borderRight: '1px solid gray',
@@ -153,7 +189,11 @@ class MonthEvent extends React.Component {
                 {this.props.dayName}<br/>{this.props.eventData.date}</TableCell>}
 
                 {this.props.eventData.plannedIsHidden && <TableCell style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.hiddenCellSunday : styles.hiddenCell}></TableCell>}
-                {!this.props.eventData.plannedIsHidden && <TableCell colSpan="4" style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.cellSunday : styles.cell}></TableCell>}
+
+                {!this.props.eventData.plannedIsHidden && <TableCell style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.cellSunday : styles.cell}>{this.props.eventData.namePlanned}</TableCell>}
+                {!this.props.eventData.plannedIsHidden && <TableCell align="center" style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.cellSunday : styles.cell}>{getTypeIcon(this.props.eventData.typePlanned)}</TableCell>}
+                {!this.props.eventData.plannedIsHidden && <TableCell align="right" style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.cellSunday : styles.cell}>{getDistance(this.props.eventData.distancePlanned)}</TableCell>}
+                {!this.props.eventData.plannedIsHidden && <TableCell align="right" style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.cellSunday : styles.cell}>{getTime(this.props.eventData.movingTimePlanned)}</TableCell>}
 
                 {!this.props.performedIsHidden && <TableCell style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.cellSunday : styles.cell}>{this.props.eventData.name}</TableCell>}
                 {!this.props.performedIsHidden && <TableCell align="center" style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.cellSunday : styles.cell}>{getTypeIcon(this.props.eventData.type)}</TableCell>}
@@ -176,6 +216,11 @@ class MonthEvent extends React.Component {
                 {!this.props.performedIsHidden && <TableCell align="right" style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.cellSunday : styles.cell}>{getDistance(this.props.eventData.distance)}</TableCell>}
                 {!this.props.performedIsHidden && <TableCell align="right" style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.cellSunday : styles.cell}>{getTime(this.props.eventData.movingTime)}</TableCell>}
                 
+                {(this.props.eventData.dateRowSpan > 0 && !this.props.performedIsHidden && this.props.eventData.skada === 1) && <TableCell rowSpan={this.props.eventData.dateRowSpan} style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.smallCellSunday : styles.smallCell} align="left"><Checkbox checked={true} disabled style={styles.checkbox}/></TableCell>}
+                {(this.props.eventData.dateRowSpan > 0 && !this.props.performedIsHidden && this.props.eventData.skada === 0) && <TableCell rowSpan={this.props.eventData.dateRowSpan} style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.smallCellSunday : styles.smallCell} align="left">&nbsp;</TableCell>}
+                {(this.props.eventData.dateRowSpan > 0 && !this.props.performedIsHidden && this.props.eventData.sjuk === 1) && <TableCell rowSpan={this.props.eventData.dateRowSpan} style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.smallCellSunday : styles.smallCell} align="left"><Checkbox checked={true} disabled style={styles.checkbox}/></TableCell>}
+                {(this.props.eventData.dateRowSpan > 0 && !this.props.performedIsHidden && this.props.eventData.sjuk === 0) && <TableCell rowSpan={this.props.eventData.dateRowSpan} style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.smallCellSunday : styles.smallCell} align="left">&nbsp;</TableCell>}
+
                 {this.props.performedIsHidden && <TableCell style={(this.props.dayName === 'Söndag' && this.props.eventData.isLastEvent) ? styles.cellSunday : styles.cell} colSpan="12"></TableCell>}
 
             </TableRow>

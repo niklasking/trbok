@@ -110,12 +110,30 @@ class Month extends React.Component {
         })
         return result;
     }
+    NoOfSkada(events) {
+        let result = 0;
+        for (let i = 0; i < events.length; i++) {
+            if (events[i].skada !== undefined && events[i].skada === 1) {
+                result++;
+            }
+        }
+        return result;
+    }
+    NoOfSjuk(events) {
+        let result = 0;
+        for (let i = 0; i < events.length; i++) {
+            if (events[i].sjuk !== undefined && events[i].sjuk === 1) {
+                result++;
+            }
+        }
+        return result;
+    }
 
 
     render() {
         let dateToPrint = moment(this.props.dateStart);
         let lastDate = moment(this.props.dateEnd);
-        let days = [];
+        let viewDays = [];
 
         const styles = {
             cell: {
@@ -173,11 +191,13 @@ class Month extends React.Component {
     
         while (lastDate.isSameOrAfter(dateToPrint, 'day')) {
             const events = this.props.activities.filter( (event) => moment(event.startDate).isSame(dateToPrint, 'day') );
-            days.push(<MonthDay 
+            const days = this.props.days.filter( (event) => moment(event.startDate).isSame(dateToPrint, 'day') );
+            viewDays.push(<MonthDay 
                 key={dateToPrint} 
                 date={dateToPrint.format('YYYY-MM-DD')} 
                 dayName={dateToPrint.locale('sv').format('dddd').charAt(0).toUpperCase() + dateToPrint.locale('sv').format('dddd').slice(1)}
                 events={events} 
+                days={days}
                 plannedIsHidden={this.state.plannedIsHidden}
                 performedIsHidden ={this.state.performedIsHidden}
                 user={this.props.user}
@@ -214,7 +234,7 @@ class Month extends React.Component {
                             {this.state.performedIsHidden && <TableCell style={styles.hiddenCell}>
                                     <Button onClick={this.showPerformed}><VisibilityOutlinedIcon/></Button>
                                 </TableCell>}
-                            {!this.state.performedIsHidden && <TableCell colSpan={12} style={styles.cell}>
+                            {!this.state.performedIsHidden && <TableCell colSpan={14} style={styles.cell}>
                                 <Box display="flex" p={1} padding={0} alignitems="center">
                                     <Box p={1} flexGrow={1} padding={0}>
                                         Utförd
@@ -232,7 +252,7 @@ class Month extends React.Component {
                             {!this.state.plannedIsHidden && <TableCell align="right" style={styles.cellPlanned}>Längd</TableCell>}
                             {!this.state.plannedIsHidden && <TableCell align="right" style={styles.cellPlanned}>Tid</TableCell>}
 
-                                {this.state.performedIsHidden && <TableCell style={styles.hiddenCell}></TableCell>}
+                            {this.state.performedIsHidden && <TableCell style={styles.hiddenCell}></TableCell>}
                             {!this.state.performedIsHidden && <TableCell style={styles.cell}>Beskrivning</TableCell>}
                             {!this.state.performedIsHidden && <TableCell align="center" style={styles.cell}>Typ</TableCell>}
                             {!this.state.performedIsHidden && <TableCell align="center" style={styles.smallCell}>OL</TableCell>}
@@ -245,10 +265,12 @@ class Month extends React.Component {
                             {!this.state.performedIsHidden && <TableCell align="center" style={styles.smallCell}>Stig</TableCell>}
                             {!this.state.performedIsHidden && <TableCell align="right" style={styles.cell}>Längd</TableCell>}
                             {!this.state.performedIsHidden && <TableCell align="right" style={styles.cell}>Tid</TableCell>}
+                            {!this.state.performedIsHidden && <TableCell align="right" style={styles.cell}>Skada</TableCell>}
+                            {!this.state.performedIsHidden && <TableCell align="right" style={styles.cell}>Sjuk</TableCell>}
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {days}
+                        {viewDays}
                         <TableRow key="summaryRow">
                             <TableCell style={styles.summaryCell}></TableCell>
                             {!this.state.plannedIsHidden && <TableCell style={styles.summaryCell} colSpan={4}></TableCell>}
@@ -264,6 +286,8 @@ class Month extends React.Component {
                             {!this.state.performedIsHidden && <TableCell align="center" style={styles.smallSummaryCell}>{this.NoOfPath(this.props.activities)}</TableCell>}
                             {!this.state.performedIsHidden && <TableCell align="right" style={styles.summaryCell}>{this.getMonthLength(this.props.activities)}</TableCell>}
                             {!this.state.performedIsHidden && <TableCell align="right" style={styles.summaryCell}>{this.getMonthTime(this.props.activities)}</TableCell>}
+                            {!this.state.performedIsHidden && <TableCell align="center" style={styles.smallSummaryCell}>{this.NoOfSkada(this.props.days)}</TableCell>}
+                            {!this.state.performedIsHidden && <TableCell align="center" style={styles.smallSummaryCell}>{this.NoOfSjuk(this.props.days)}</TableCell>}
                             {this.state.performedIsHidden && <TableCell style={styles.summaryCell}></TableCell>}
                         </TableRow>
                     </TableBody>

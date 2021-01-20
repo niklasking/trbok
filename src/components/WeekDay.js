@@ -24,6 +24,10 @@ class WeekDay extends React.Component {
                 alternative: 0,
                 forest: 0,
                 path: 0,
+                namePlanned: '',
+                distancePlanned: 0,
+                movingTimePlanned: 0,
+                typePlanned: '',
                 skada: this.props.days.length === 0 || this.props.days[0].skada === 0 ? 0: 1, 
                 sjuk: this.props.days.length === 0 || this.props.days[0].sjuk === 0 ? 0: 1 
             };
@@ -50,6 +54,10 @@ class WeekDay extends React.Component {
                 alternative: this.props.events[0].alternative,
                 forest: this.props.events[0].forest,
                 path: this.props.events[0].path,
+                namePlanned: this.props.events[0].namePlanned,
+                distancePlanned: this.props.events[0].distancePlanned,
+                movingTimePlanned: this.props.events[0].movingTimePlanned,
+                typePlanned: this.props.events[0].typePlanned,
                 skada: this.props.days.length === 0 || this.props.days[0].skada === 0 ? 0: 1, 
                 sjuk: this.props.days.length === 0 || this.props.days[0].sjuk === 0 ? 0: 1 
             };
@@ -75,6 +83,10 @@ class WeekDay extends React.Component {
                     alternative: this.props.events[i].alternative,
                     forest: this.props.events[i].forest,
                     path: this.props.events[i].path,
+                    namePlanned: this.props.events[i].namePlanned,
+                    distancePlanned: this.props.events[i].distancePlanned,
+                    movingTimePlanned: this.props.events[i].movingTimePlanned,
+                    typePlanned: this.props.events[i].typePlanned,
                     skada: this.props.days.length === 0 || this.props.days[0].skada === 0 ? 0: 1, 
                     sjuk: this.props.days.length === 0 || this.props.days[0].sjuk === 0 ? 0: 1 
                     };

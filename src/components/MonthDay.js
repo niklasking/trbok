@@ -5,28 +5,11 @@ import MonthEvent from './MonthEvent';
 class MonthDay extends React.Component {
 
     render() {
-        const styles = {
-            cell: {
-                borderRight: '1px solid gray',
-                padding: '5px'
-            },
-            dateCell: {
-                borderRight: '1px solid gray',
-                padding: '5px',
-                width: '80px'
-            },
-            hiddenCell: {
-                borderRight: '1px solid gray',
-                padding: '0',
-                width: '20px'
-            }
-        };
-
         if (this.props.events.length === 0) {
             let eventData = {
+                isLastEvent: true,
                 key: 'empty_' + this.props.date,
                 dateRowSpan: 1,
-                isLastEvent: true,
                 date: this.props.date,
                 plannedIsHidden: this.props.plannedIsHidden,
                 name: 'Vila',
@@ -41,7 +24,13 @@ class MonthDay extends React.Component {
                 strength: 0,
                 alternative: 0,
                 forest: 0,
-                path: 0
+                path: 0,
+                namePlanned: '',
+                distancePlanned: 0,
+                movingTimePlanned: 0,
+                typePlanned: '',
+                skada: this.props.days.length === 0 || this.props.days[0].skada === 0 ? 0: 1, 
+                sjuk: this.props.days.length === 0 || this.props.days[0].sjuk === 0 ? 0: 1 
             };
             return (
                 <MonthEvent dayDate={this.props.date} dayName={this.props.dayName} eventData={eventData} key={'weekEvent_' + eventData.key} user={this.props.user} upDatePage={this.props.upDatePage} performedIsHidden={this.props.performedIsHidden}/>
@@ -49,9 +38,9 @@ class MonthDay extends React.Component {
         } else {
             let dayEvents = [];
             let eventData = {
+                isLastEvent: this.props.events.length === 1 ? true : false,
                 key: this.props.events[0]._id,
                 dateRowSpan: this.props.events.length,
-                isLastEvent: this.props.events.length === 1 ? true : false,
                 date: this.props.date,
                 plannedIsHidden: this.props.plannedIsHidden,
                 name: this.props.events[0].name,
@@ -66,16 +55,22 @@ class MonthDay extends React.Component {
                 strength: this.props.events[0].strength,
                 alternative: this.props.events[0].alternative,
                 forest: this.props.events[0].forest,
-                path: this.props.events[0].path
+                path: this.props.events[0].path,
+                namePlanned: this.props.events[0].namePlanned,
+                distancePlanned: this.props.events[0].distancePlanned,
+                movingTimePlanned: this.props.events[0].movingTimePlanned,
+                typePlanned: this.props.events[0].typePlanned,
+                skada: this.props.days.length === 0 || this.props.days[0].skada === 0 ? 0: 1, 
+                sjuk: this.props.days.length === 0 || this.props.days[0].sjuk === 0 ? 0: 1 
             };
             dayEvents.push(<MonthEvent dayDate={this.props.date} dayName={this.props.dayName} eventData={eventData} key={'weekEvent_' + eventData.key} user={this.props.user} upDatePage={this.props.upDatePage} performedIsHidden={this.props.performedIsHidden}/>);
 
 
             for (let i = 1; i < this.props.events.length; i++) {
                 let eventData = {
+                    isLastEvent: i === this.props.events.length - 1 ? true: false,
                     key: this.props.events[i]._id,
                     dateRowSpan: 0,
-                    isLastEvent: i === this.props.events.length - 1 ? true: false,
                     date: this.props.date,
                     plannedIsHidden: this.props.plannedIsHidden,
                     name: this.props.events[i].name,
@@ -90,7 +85,13 @@ class MonthDay extends React.Component {
                     strength: this.props.events[i].strength,
                     alternative: this.props.events[i].alternative,
                     forest: this.props.events[i].forest,
-                    path: this.props.events[i].path
+                    path: this.props.events[i].path,
+                    namePlanned: this.props.events[i].namePlanned,
+                    distancePlanned: this.props.events[i].distancePlanned,
+                    movingTimePlanned: this.props.events[i].movingTimePlanned,
+                    typePlanned: this.props.events[i].typePlanned,
+                    skada: this.props.days.length === 0 || this.props.days[0].skada === 0 ? 0: 1, 
+                    sjuk: this.props.days.length === 0 || this.props.days[0].sjuk === 0 ? 0: 1 
                 };
                 dayEvents.push(<MonthEvent dayDate={this.props.date} dayName={this.props.dayName} eventData={eventData} key={'weekEvent_' + eventData.key} user={this.props.user} upDatePage={this.props.upDatePage} performedIsHidden={this.props.performedIsHidden}/>);
             }

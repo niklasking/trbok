@@ -3,8 +3,8 @@ import Chart from 'react-apexcharts';
 import axios from 'axios';
 import moment from 'moment';
 
-//const backendBaseUrl = 'http://localhost:3333';
-const backendBaseUrl = 'https://trbokbackend.niklasking.com';
+const backendBaseUrl = 'http://localhost:3333';
+//const backendBaseUrl = 'https://trbokbackend.niklasking.com';
 
 
 class Statistics extends React.Component {

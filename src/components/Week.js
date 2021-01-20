@@ -1,7 +1,6 @@
 import React from 'react';
 import moment from 'moment';
 import momentDurationFormatSetup from 'moment-duration-format';
-import localization from 'moment/locale/sv';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -113,7 +112,7 @@ class Week extends React.Component {
     NoOfSkada(events) {
         let result = 0;
         for (let i = 0; i < events.length; i++) {
-            if (events[i].skada !== undefined && events[i.skada === 1]) {
+            if (events[i].skada !== undefined && events[i].skada === 1) {
                 result++;
             }
         }
@@ -122,7 +121,7 @@ class Week extends React.Component {
     NoOfSjuk(events) {
         let result = 0;
         for (let i = 0; i < events.length; i++) {
-            if (events[i].sjuk !== undefined && events[i.sjuk === 1]) {
+            if (events[i].sjuk !== undefined && events[i].sjuk === 1) {
                 result++;
             }
         }
@@ -287,8 +286,8 @@ class Week extends React.Component {
                             {!this.state.performedIsHidden && <TableCell align="center" style={styles.smallSummaryCell}>{this.NoOfPath(this.props.activities)}</TableCell>}
                             {!this.state.performedIsHidden && <TableCell align="right" style={styles.summaryCell}>{this.getWeekLength(this.props.activities)}</TableCell>}
                             {!this.state.performedIsHidden && <TableCell align="right" style={styles.summaryCell}>{this.getWeekTime(this.props.activities)}</TableCell>}
-                            {!this.state.performedIsHidden && <TableCell align="center" style={styles.smallSummaryCell}>{this.NoOfSkada(this.props.activities)}</TableCell>}
-                            {!this.state.performedIsHidden && <TableCell align="center" style={styles.smallSummaryCell}>{this.NoOfSjuk(this.props.activities)}</TableCell>}
+                            {!this.state.performedIsHidden && <TableCell align="center" style={styles.smallSummaryCell}>{this.NoOfSkada(this.props.days)}</TableCell>}
+                            {!this.state.performedIsHidden && <TableCell align="center" style={styles.smallSummaryCell}>{this.NoOfSjuk(this.props.days)}</TableCell>}
                             {this.state.performedIsHidden && <TableCell style={styles.summaryCell}></TableCell>}
                         </TableRow>
                     </TableBody>

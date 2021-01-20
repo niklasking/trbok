@@ -70,7 +70,7 @@ function EditEventDialog(props) {
           </ListItemAvatar>
           <ListItemText primary="Synka från Strava" />
         </ListItem>
-        {!props.skada && <ListItem button onClick={() => handleListItemClick('isSkadad')}>
+        {(!props.skada && props.isFirstEvent) && <ListItem button onClick={() => handleListItemClick('isSkadad')}>
           <ListItemAvatar>
             <Avatar>
               <AccessibleForwardIcon />
@@ -78,7 +78,7 @@ function EditEventDialog(props) {
           </ListItemAvatar>
           <ListItemText primary="Jag är skadad" /><SentimentDissatisfiedOutlinedIcon/>
         </ListItem>}
-        {props.skada && <ListItem button onClick={() => handleListItemClick('isNotSkadad')}>
+        {(props.skada  && props.isFirstEvent) && <ListItem button onClick={() => handleListItemClick('isNotSkadad')}>
           <ListItemAvatar>
             <Avatar>
               <DirectionsRunOutlinedIcon />
@@ -86,7 +86,7 @@ function EditEventDialog(props) {
           </ListItemAvatar>
           <ListItemText primary="Jag är hel" /><SentimentSatisfiedOutlinedIcon/>
         </ListItem>}
-        {!props.sjuk && <ListItem button onClick={() => handleListItemClick('isSjuk')}>
+        {(!props.sjuk  && props.isFirstEvent) && <ListItem button onClick={() => handleListItemClick('isSjuk')}>
           <ListItemAvatar>
             <Avatar>
               <LocalHospitalOutlinedIcon />
@@ -94,7 +94,7 @@ function EditEventDialog(props) {
           </ListItemAvatar>
           <ListItemText primary="Jag är sjuk" /><SentimentDissatisfiedOutlinedIcon/>
         </ListItem>}
-        {props.sjuk && <ListItem button onClick={() => handleListItemClick('isNotSjuk')}>
+        {(props.sjuk  && props.isFirstEvent) && <ListItem button onClick={() => handleListItemClick('isNotSjuk')}>
           <ListItemAvatar>
             <Avatar>
               <DirectionsRunOutlinedIcon />

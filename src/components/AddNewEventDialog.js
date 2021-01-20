@@ -82,7 +82,7 @@ class AddNewEventDialog extends React.Component {
         typePlanned: '',
         movingTimePlanned: '',
         distancePlanned: 0,
-        type: 'Run',
+        type: '',
         movingTime: '',
         distance: 0,
         ol: false,
@@ -135,11 +135,9 @@ class AddNewEventDialog extends React.Component {
         const item = {
             saveStatus: true,
             startDate: this.props.dayDate,
-            typePlanned: this.state.typePlanned,
-            movingTimePlanned: this.state.movingTimePlanned,
-            distancePlanned: this.state.distancePlanned,
             name: this.state.name,
-            type: this.state.type === false ? 'Run' : this.state.type,
+//            type: (this.state.type === false || this.state.type === '') ? 'Run' : this.state.type,
+            type: this.state.type,
             movingTime: this.state.movingTime,
             distance: this.state.distance,
             ol: this.state.ol,
@@ -149,8 +147,13 @@ class AddNewEventDialog extends React.Component {
             strength: this.state.strength,
             alternative: this.state.alternative,
             forest: this.state.forest,
-            path: this.state.path
-    
+            path: this.state.path,
+//            typePlanned: (this.state.typePlanned === false || this.state.typePlanned === '') ? 'Run' : this.state.typePlanned,
+            typePlanned: this.state.typePlanned,
+            movingTimePlanned: this.state.movingTimePlanned,
+            distancePlanned: this.state.distancePlanned,
+            namePlanned: this.state.namePlanned
+
         }
         this.props.handleAddEventClose({item});
     }
@@ -255,13 +258,15 @@ class AddNewEventDialog extends React.Component {
 
                             {this.state.plannedIsHidden && <TableCell style={styles.hiddenCell}></TableCell>}
                             {!this.state.plannedIsHidden && <TableCell style={styles.cell}><TextField variant="outlined" multiline={true} fullWidth={true} rows={3} value={this.state.namePlanned} onChange={(e) => this.setState({ namePlanned: e.target.value })} /></TableCell>}
-                            {!this.state.plannedIsHidden && <TableCell style={styles.cell}><Select defaultValue="" onChange={(e) => this.setState({ type: e.target.valuePlanned })}><MenuItem value="ol"><img src={process.env.PUBLIC_URL + '/olskarm.png'} alt="OL" height={16} width={16}/><span>OL</span></MenuItem><MenuItem value="night"><NightsStayIcon/><span>Natt-OL</span></MenuItem><MenuItem value="Run"><DirectionsRunOutlinedIcon/><span>Löpning</span></MenuItem><MenuItem value="Ride"><DirectionsBikeOutlinedIcon/><span>Cykel</span></MenuItem><MenuItem value="VirtualRide"><DirectionsBikeOutlinedIcon/><span>Cykel inne</span></MenuItem><MenuItem value="WeightTraining"><FitnessCenterOutlinedIcon/><span>Styrketräning</span></MenuItem><MenuItem value="Swim"><PoolIcon/><span>Simning</span></MenuItem><MenuItem value="Workout"><AccessibilityNewIcon/><span>Annat</span></MenuItem><MenuItem value="NordicSki"><img src={process.env.PUBLIC_URL + '/ski.png'} alt="Ski" height={16} width={16}/><span>Skidor</span></MenuItem><MenuItem value="RollerSki"><img src={process.env.PUBLIC_URL + '/ski.png'} alt="Rullskidor" height={16} width={16}/><span>Rullskidor</span></MenuItem><MenuItem value="Kayaking"><img src={process.env.PUBLIC_URL + '/kayak.png'} alt="Kayak" height={16} width={16}/><span>Kajak</span></MenuItem><MenuItem value="Walk"><DirectionsWalkIcon/><span>Gång</span></MenuItem></Select></TableCell>}
+                            {!this.state.plannedIsHidden && <TableCell style={styles.cell}>
+                                <Select defaultValue="" onChange={(e) => this.setState({ typePlanned: e.target.value })}>
+                                    <MenuItem value="ol"><img src={process.env.PUBLIC_URL + '/olskarm.png'} alt="OL" height={16} width={16}/><span>OL</span></MenuItem><MenuItem value="night"><NightsStayIcon/><span>Natt-OL</span></MenuItem><MenuItem value="Run"><DirectionsRunOutlinedIcon/><span>Löpning</span></MenuItem><MenuItem value="Ride"><DirectionsBikeOutlinedIcon/><span>Cykel</span></MenuItem><MenuItem value="VirtualRide"><DirectionsBikeOutlinedIcon/><span>Cykel inne</span></MenuItem><MenuItem value="WeightTraining"><FitnessCenterOutlinedIcon/><span>Styrketräning</span></MenuItem><MenuItem value="Swim"><PoolIcon/><span>Simning</span></MenuItem><MenuItem value="Workout"><AccessibilityNewIcon/><span>Annat</span></MenuItem><MenuItem value="NordicSki"><img src={process.env.PUBLIC_URL + '/ski.png'} alt="Ski" height={16} width={16}/><span>Skidor</span></MenuItem><MenuItem value="RollerSki"><img src={process.env.PUBLIC_URL + '/ski.png'} alt="Rullskidor" height={16} width={16}/><span>Rullskidor</span></MenuItem><MenuItem value="Kayaking"><img src={process.env.PUBLIC_URL + '/kayak.png'} alt="Kayak" height={16} width={16}/><span>Kajak</span></MenuItem><MenuItem value="Walk"><DirectionsWalkIcon/><span>Gång</span></MenuItem></Select></TableCell>}
                             {!this.state.plannedIsHidden && <TableCell style={styles.dataCell}><TextField variant="outlined" fullWidth={true} value={this.state.distancePlanned} onChange={this.correctPlannedDistance} error={this.validatePlannedDistance()} helperText={this.validatePlannedDistance() ? 'Fel' : ' '}/></TableCell>}
                             {!this.state.plannedIsHidden && <TableCell style={styles.dataCell}><TextField variant="outlined" fullWidth={true} value={this.state.movingTimePlanned} onChange={this.correctPlannedMovingTime} error={this.validatePlannedMovingTime()} helperText={this.validatePlannedMovingTime() ? 'Fel' : ' '}/></TableCell>}
 
                             {this.state.performedIsHidden && <TableCell style={styles.hiddenCell}/>}
                             {!this.state.performedIsHidden && <TableCell style={styles.cell}><TextField variant="outlined" multiline={true} fullWidth={true} rows={3} value={this.state.name} onChange={(e) => this.setState({ name: e.target.value })} /></TableCell>}
-                            {!this.state.performedIsHidden && <TableCell style={styles.cell}><Select defaultValue="Run" onChange={(e) => this.setState({ type: e.target.value })}><MenuItem value="ol"><img src={process.env.PUBLIC_URL + '/olskarm.png'} alt="OL" height={16} width={16}/><span>OL</span></MenuItem><MenuItem value="night"><NightsStayIcon/><span>Natt-OL</span></MenuItem><MenuItem value="Run"><DirectionsRunOutlinedIcon/><span>Löpning</span></MenuItem><MenuItem value="Ride"><DirectionsBikeOutlinedIcon/><span>Cykel</span></MenuItem><MenuItem value="VirtualRide"><DirectionsBikeOutlinedIcon/><span>Cykel inne</span></MenuItem><MenuItem value="WeightTraining"><FitnessCenterOutlinedIcon/><span>Styrketräning</span></MenuItem><MenuItem value="Swim"><PoolIcon/><span>Simning</span></MenuItem><MenuItem value="Workout"><AccessibilityNewIcon/><span>Annat</span></MenuItem><MenuItem value="NordicSki"><img src={process.env.PUBLIC_URL + '/ski.png'} alt="Ski" height={16} width={16}/><span>Skidor</span></MenuItem><MenuItem value="RollerSki"><img src={process.env.PUBLIC_URL + '/ski.png'} alt="Rullskidor" height={16} width={16}/><span>Rullskidor</span></MenuItem><MenuItem value="Kayaking"><img src={process.env.PUBLIC_URL + '/kayak.png'} alt="Kayak" height={16} width={16}/><span>Kajak</span></MenuItem><MenuItem value="Walk"><DirectionsWalkIcon/><span>Gång</span></MenuItem></Select></TableCell>}
+                            {!this.state.performedIsHidden && <TableCell style={styles.cell}><Select defaultValue="" onChange={(e) => this.setState({ type: e.target.value })}><MenuItem value="ol"><img src={process.env.PUBLIC_URL + '/olskarm.png'} alt="OL" height={16} width={16}/><span>OL</span></MenuItem><MenuItem value="night"><NightsStayIcon/><span>Natt-OL</span></MenuItem><MenuItem value="Run"><DirectionsRunOutlinedIcon/><span>Löpning</span></MenuItem><MenuItem value="Ride"><DirectionsBikeOutlinedIcon/><span>Cykel</span></MenuItem><MenuItem value="VirtualRide"><DirectionsBikeOutlinedIcon/><span>Cykel inne</span></MenuItem><MenuItem value="WeightTraining"><FitnessCenterOutlinedIcon/><span>Styrketräning</span></MenuItem><MenuItem value="Swim"><PoolIcon/><span>Simning</span></MenuItem><MenuItem value="Workout"><AccessibilityNewIcon/><span>Annat</span></MenuItem><MenuItem value="NordicSki"><img src={process.env.PUBLIC_URL + '/ski.png'} alt="Ski" height={16} width={16}/><span>Skidor</span></MenuItem><MenuItem value="RollerSki"><img src={process.env.PUBLIC_URL + '/ski.png'} alt="Rullskidor" height={16} width={16}/><span>Rullskidor</span></MenuItem><MenuItem value="Kayaking"><img src={process.env.PUBLIC_URL + '/kayak.png'} alt="Kayak" height={16} width={16}/><span>Kajak</span></MenuItem><MenuItem value="Walk"><DirectionsWalkIcon/><span>Gång</span></MenuItem></Select></TableCell>}
                             {!this.state.performedIsHidden && <TableCell align="center" style={styles.smallCell}><Checkbox checked={this.state.ol} onChange={(e) => this.setState({ ol: e.target.checked })} style={styles.checkbox}/></TableCell>}
                             {!this.state.performedIsHidden && <TableCell align="center" style={styles.smallCell}><Checkbox checked={this.state.night} onChange={(e) => this.setState({ night: e.target.checked })} style={styles.checkbox}/></TableCell>}
                             {!this.state.performedIsHidden && <TableCell align="center" style={styles.smallCell}><Checkbox checked={this.state.quality} onChange={(e) => this.setState({ quality: e.target.checked })} style={styles.checkbox}/></TableCell>}
