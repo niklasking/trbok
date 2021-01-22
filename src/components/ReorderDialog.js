@@ -223,7 +223,7 @@ handleCloseOk = async () => {
                 deleteEvent = false;
             } else if (activity.name !== '') {
                 deleteEvent = false;
-            } else if (activity.namePlanned !== undefined) {
+            } else if (!(activity.namePlanned === undefined || activity.namePlanned === null)) {
                 deleteEvent = false;
             } else if (activity.night !== 0) {
                 deleteEvent = false;
