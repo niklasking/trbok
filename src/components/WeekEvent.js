@@ -31,10 +31,11 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import DeleteIcon from '@material-ui/icons/Delete';
 import DoneIcon from '@material-ui/icons/Done';
 import RevertIcon from "@material-ui/icons/NotInterestedOutlined";
+import { Cancel } from '@material-ui/icons';
 
 import EditEventDialog from './EditEventDialog';
 import AddNewEventDialog from './AddNewEventDialog';
-import { Cancel } from '@material-ui/icons';
+import ReorderDialog from './ReorderDialog';
 
   //const backendBaseUrl = 'http://localhost:3333';
   const backendBaseUrl = 'https://trbokbackend.niklasking.com';
@@ -140,6 +141,7 @@ class WeekEvent extends React.Component {
 //        isEditMode: false,
         isEditing: false,
         isAdding: false,
+        showReorder: false,
         name: '',
         movingTime: "0",
         distance: 0,
@@ -152,8 +154,10 @@ class WeekEvent extends React.Component {
         alternative: false,
         forest: false,
         path: false,
-        skada: false,
-        sjuk: false,
+//        skada: false,
+        skada: this.props.eventData.skada === 1 ? true : false,
+//        sjuk: false,
+//        sjuk: this.props.eventData.sjuk === 1 ? true : false,
         openEditEventDialog: false,
         openDeleteWarningDialog: false,
         namePlanned: '',
@@ -210,11 +214,18 @@ class WeekEvent extends React.Component {
                 this.setState({sjuk: false});
                 this.saveDay(this.state.skada, false);
                 break;
+            case 'reorder':
+                this.setState({showReorder: true});
+                break;
             default:
         }
     };
     // *******************************
-
+    handleCloseReorderEventDialog = async (value) => {
+        this.setState({showReorder: false});
+        this.props.upDatePage();
+//        console.log(value);
+    }
     handleCloseDeleteWarningDialogOk = async () => {
         this.setState({openDeleteWarningDialog: false});
 
@@ -464,11 +475,12 @@ class WeekEvent extends React.Component {
 
         return (
             <TableRow key={this.props.eventData.key}>
+                <ReorderDialog events={this.props.eventsOfDay} open={this.state.showReorder} onClose={this.handleCloseReorderEventDialog}/>
                 {!(this.state.isEditing) && <TableCell style={styles.editCell} align="center">
                         <MoreHorizIcon onClick={this.setEditMode}/>
                     </TableCell>}
-                {this.props.eventData.key.startsWith('empty_') && <EditEventDialog open={this.state.openEditEventDialog} onClose={this.handleCloseEditEventDialog} emptyDay={true} skada={this.state.skada} sjuk={this.state.sjuk} isFirstEvent={this.props.eventData.dateRowSpan > 0 ? true : false}/>}
-                {!this.props.eventData.key.startsWith('empty_') && <EditEventDialog open={this.state.openEditEventDialog} onClose={this.handleCloseEditEventDialog} emptyDay={false} skada={this.state.skada} sjuk={this.state.sjuk} isFirstEvent={this.props.eventData.dateRowSpan > 0 ? true : false}/>}
+                {this.props.eventData.key.startsWith('empty_') && <EditEventDialog noOfEvents={this.props.eventsOfDay.length} open={this.state.openEditEventDialog} onClose={this.handleCloseEditEventDialog} emptyDay={true} skada={this.state.skada} sjuk={this.state.sjuk} isFirstEvent={this.props.eventData.dateRowSpan > 0 ? true : false}/>}
+                {!this.props.eventData.key.startsWith('empty_') && <EditEventDialog noOfEvents={this.props.eventsOfDay.length} open={this.state.openEditEventDialog} onClose={this.handleCloseEditEventDialog} emptyDay={false} skada={this.state.skada} sjuk={this.state.sjuk} isFirstEvent={this.props.eventData.dateRowSpan > 0 ? true : false}/>}
                 <Dialog
                     open={this.state.openDeleteWarningDialog}
                     onClose={this.handleCloseDeleteWarningDialogNok}

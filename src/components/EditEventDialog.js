@@ -1,30 +1,24 @@
 import React from 'react';
-//import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import Dialog from '@material-ui/core/Dialog';
-//import { blue } from '@material-ui/core/colors';
+import Divider from '@material-ui/core/Divider';
+
 import EditIcon from "@material-ui/icons/EditOutlined";
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
+import FindReplaceIcon from '@material-ui/icons/FindReplace';
+
 import AccessibleForwardIcon from '@material-ui/icons/AccessibleForward';
 import SentimentSatisfiedOutlinedIcon from '@material-ui/icons/SentimentSatisfiedOutlined';
 import SentimentDissatisfiedOutlinedIcon from '@material-ui/icons/SentimentDissatisfiedOutlined';
 import DirectionsRunOutlinedIcon from '@material-ui/icons/DirectionsRunOutlined';
 import LocalHospitalOutlinedIcon from '@material-ui/icons/LocalHospitalOutlined';
-/*
-const useStyles = makeStyles({
-  avatar: {
-    backgroundColor: blue[100],
-    color: blue[600],
-  },
-});
-*/
+
 function EditEventDialog(props) {
-//  const classes = useStyles();
   const { onClose, selectedValue, open } = props;
 
   const handleClose = () => {
@@ -62,6 +56,14 @@ function EditEventDialog(props) {
           </ListItemAvatar>
           <ListItemText primary="Ta bort aktiviteten" />
         </ListItem>}
+        {(props.noOfEvents > 1) && <ListItem button onClick={() => handleListItemClick('reorder')}>
+          <ListItemAvatar>
+            <Avatar>
+              <FindReplaceIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary="Editera dagens aktiviteter" />
+        </ListItem>}
         <ListItem button onClick={() => handleListItemClick('strava')}>
           <ListItemAvatar>
             <Avatar>
@@ -70,6 +72,7 @@ function EditEventDialog(props) {
           </ListItemAvatar>
           <ListItemText primary="Synka från Strava" />
         </ListItem>
+        <Divider/>
         {(!props.skada && props.isFirstEvent) && <ListItem button onClick={() => handleListItemClick('isSkadad')}>
           <ListItemAvatar>
             <Avatar>
