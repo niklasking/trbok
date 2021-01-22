@@ -108,6 +108,9 @@ class AppLoggedIn extends React.Component {
         }
     }
     fetchUpdatedActivities = async () => {
+        console.log("Updating");
+        this.setState({activities: []});
+        this.setState({day: []});
         let end = moment(this.state.dateEnd).add(1, 'd').format('YYYY-MM-DD');
         const url1 = backendBaseUrl + '/api/v1/activities?dateStart=' + this.state.dateStart + '&dateEnd=' + end  + '&user=' + this.props.loggedInUser._id;
         const response1 = await axios.get(url1);

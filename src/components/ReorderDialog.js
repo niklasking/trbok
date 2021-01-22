@@ -261,7 +261,7 @@ handleCloseNok = () => {
   render() {
     return (
         <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" open={this.props.open}>
-            <table><tbody><tr><td>
+            <table><thead><tr><td>Planerad</td><td>Utförd</td></tr></thead><tbody><tr><td>
             <DragDropContext onDragEnd={this.onDragEnd}>
                 <Droppable droppableId="droppable">
                 {(provided, snapshot) => (
