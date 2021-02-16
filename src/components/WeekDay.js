@@ -31,10 +31,13 @@ class WeekDay extends React.Component {
                 movingTimePlanned: 0,
                 typePlanned: '',
                 skada: this.props.days.length === 0 || this.props.days[0].skada === 0 ? 0: 1, 
-                sjuk: this.props.days.length === 0 || this.props.days[0].sjuk === 0 ? 0: 1 
+                sjuk: this.props.days.length === 0 || this.props.days[0].sjuk === 0 ? 0: 1,
+                hasStravaActivity: false,
+                isStravaSynced: false,
+                isStravaStreamsSynced: false
             };
             return (
-                <WeekEvent eventsOfDay={eventsOfDay} dayDate={this.props.date} dayName={this.props.dayName} eventData={eventData} key={'weekEvent_' + eventData.key} user={this.props.user} upDatePage={this.props.upDatePage} performedIsHidden={this.props.performedIsHidden}/>
+                <WeekEvent eventsOfDay={eventsOfDay} setDetailsTab={this.props.setDetailsTab} dayDate={this.props.date} dayName={this.props.dayName} eventData={eventData} key={'weekEvent_' + eventData.key} user={this.props.user} upDatePage={this.props.upDatePage} performedIsHidden={this.props.performedIsHidden}/>
             )
         } else {
             let dayEvents = [];
@@ -61,9 +64,12 @@ class WeekDay extends React.Component {
                 movingTimePlanned: this.props.events[0].movingTimePlanned,
                 typePlanned: this.props.events[0].typePlanned,
                 skada: this.props.days.length === 0 || this.props.days[0].skada === 0 ? 0: 1, 
-                sjuk: this.props.days.length === 0 || this.props.days[0].sjuk === 0 ? 0: 1 
+                sjuk: this.props.days.length === 0 || this.props.days[0].sjuk === 0 ? 0: 1,
+                hasStravaActivity: this.props.events[0].hasStravaActivity,
+                isStravaSynced: this.props.events[0].isStravaSynced,
+                isStravaStreamsSynced: this.props.events[0].isStravaStreamsSynced
             };
-            dayEvents.push(<WeekEvent eventsOfDay={this.props.events} dayDate={this.props.date} dayName={this.props.dayName} eventData={eventData} key={'weekEvent_' + eventData.key} user={this.props.user} upDatePage={this.props.upDatePage} performedIsHidden={this.props.performedIsHidden}/>);
+            dayEvents.push(<WeekEvent eventsOfDay={this.props.events} setDetailsTab={this.props.setDetailsTab} dayDate={this.props.date} dayName={this.props.dayName} eventData={eventData} key={'weekEvent_' + eventData.key} user={this.props.user} upDatePage={this.props.upDatePage} performedIsHidden={this.props.performedIsHidden}/>);
 
 
             for (let i = 1; i < this.props.events.length; i++) {
@@ -90,9 +96,12 @@ class WeekDay extends React.Component {
                     movingTimePlanned: this.props.events[i].movingTimePlanned,
                     typePlanned: this.props.events[i].typePlanned,
                     skada: this.props.days.length === 0 || this.props.days[0].skada === 0 ? 0: 1, 
-                    sjuk: this.props.days.length === 0 || this.props.days[0].sjuk === 0 ? 0: 1 
-                    };
-                dayEvents.push(<WeekEvent eventsOfDay={this.props.events} dayDate={this.props.date} dayName={this.props.dayName} eventData={eventData} key={'weekEvent_' + eventData.key} user={this.props.user} upDatePage={this.props.upDatePage} performedIsHidden={this.props.performedIsHidden}/>);
+                    sjuk: this.props.days.length === 0 || this.props.days[0].sjuk === 0 ? 0: 1,
+                    hasStravaActivity: this.props.events[i].hasStravaActivity,
+                    isStravaSynced: this.props.events[i].isStravaSynced,
+                    isStravaStreamsSynced: this.props.events[i].isStravaStreamsSynced
+                };
+                dayEvents.push(<WeekEvent eventsOfDay={this.props.events} setDetailsTab={this.props.setDetailsTab} dayDate={this.props.date} dayName={this.props.dayName} eventData={eventData} key={'weekEvent_' + eventData.key} user={this.props.user} upDatePage={this.props.upDatePage} performedIsHidden={this.props.performedIsHidden}/>);
             }
             return <Fragment>{dayEvents}</Fragment>
         }

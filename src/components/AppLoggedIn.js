@@ -12,7 +12,8 @@ class AppLoggedIn extends React.Component {
         days: [],
         dateStart: moment().startOf('isoWeek').format('YYYY-MM-DD'),
         dateEnd: moment().endOf('isoWeek').format('YYYY-MM-DD'),
-        selectedTab: 'week'
+        selectedTab: 'week',
+        selectedEvent: null
     }
     onWeekTabClick = async (event) => {
         if (event !== null) {
@@ -45,6 +46,12 @@ class AppLoggedIn extends React.Component {
                 moment().startOf('month').format('YYYY-MM-DD'),
                 moment().endOf('month').format('YYYY-MM-DD')
             ) });
+        }
+    }
+    onDetailsTabClick = async (event) => {
+        event.preventDefault();
+        if (this.state.selectedEvent !== null) {
+            this.setState({selectedTab: 'details'});
         }
     }
     onStatTabClick = (event) => {
@@ -108,7 +115,6 @@ class AppLoggedIn extends React.Component {
         }
     }
     fetchUpdatedActivities = async () => {
-        console.log("Updating");
         this.setState({activities: []});
         this.setState({day: []});
         let end = moment(this.state.dateEnd).add(1, 'd').format('YYYY-MM-DD');
@@ -123,6 +129,13 @@ class AppLoggedIn extends React.Component {
     componentDidMount() {
         this.onWeekTabClick(null);
     }
+    setDetailsTab = (selectedEvent) => {
+        this.setState(
+            {
+                selectedTab: 'details',
+                selectedEvent: selectedEvent
+            });
+    }
     render() {
         return(
             <div>
@@ -133,6 +146,9 @@ class AppLoggedIn extends React.Component {
                     <a className={this.state.selectedTab === 'month' ? 'item active' : 'item'} href="/" onClick={this.onMonthTabClick}>
                         Månad
                     </a>
+                    <a className={this.state.selectedTab === 'details' ? 'item active' : 'item'} href="/" onClick={this.onDetailsTabClick}>
+                        Träning
+                    </a>
                     <a className={this.state.selectedTab === 'stat' ? 'item active' : 'item'} href="/" onClick={this.onStatTabClick}>
                         Statistik
                     </a>
@@ -140,6 +156,8 @@ class AppLoggedIn extends React.Component {
                 <div className="ui bottom attached segment" key="trDataView">
                     <Summary 
                         selectedTab={this.state.selectedTab}
+                        setDetailsTab={this.setDetailsTab}
+                        selectedEvent={this.state.selectedEvent}
                         activities={this.state.activities} 
                         days={this.state.days}
                         dateStart={this.state.dateStart}

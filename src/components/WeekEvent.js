@@ -16,6 +16,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Link from '@material-ui/core/Link';
 
 import MenuItem from '@material-ui/core/MenuItem';
 import DirectionsRunOutlinedIcon from '@material-ui/icons/DirectionsRunOutlined';
@@ -170,11 +171,11 @@ class WeekEvent extends React.Component {
 
         const after = moment(this.props.dayDate + " 00:00:00").unix();
         const before = moment(this.props.dayDate + " 23:59:59").unix();
-        const url = backendBaseUrl + '/api/v1/strava/activities/between' +
-                    '?before=' + before + '&after=' + after +
-                    '&stravaId=' + this.props.user.stravaId;
-        
-        await axios.get(url);
+            const url = backendBaseUrl + '/api/v1/strava/activities/between' +
+                        '?before=' + before + '&after=' + after +
+                        '&stravaId=' + this.props.user.stravaId;
+            
+            await axios.get(url);
         this.props.upDatePage();
     }
 
@@ -413,6 +414,11 @@ class WeekEvent extends React.Component {
     correctMovingTime = (event) => {
         this.setState({ movingTime: event.target.value.replace(/[^\d:]/g, '') });
     }
+    showDetails = (event) => {
+        event.preventDefault();
+        this.props.setDetailsTab(this.props.eventData.key);
+//        console.log(this.props.eventData.key);
+    }
 
     componentDidMount() {
         this.setState({name: this.props.eventData.name === null ? '' : this.props.eventData.name});
@@ -473,11 +479,15 @@ class WeekEvent extends React.Component {
             }
         };
 
+//        console.log(this.props.eventData)
         return (
             <TableRow key={this.props.eventData.key}>
                 <ReorderDialog events={this.props.eventsOfDay} open={this.state.showReorder} onClose={this.handleCloseReorderEventDialog}/>
-                {!(this.state.isEditing) && <TableCell style={styles.editCell} align="center">
-                        <MoreHorizIcon onClick={this.setEditMode}/>
+                {(!(this.state.isEditing) && this.props.eventData.isStravaStreamsSynced) && <TableCell style={styles.editCell} align="center">
+                        <MoreHorizIcon onClick={this.setEditMode} style={{color: 'green'}}/>
+                    </TableCell>}
+                {(!(this.state.isEditing) && !this.props.eventData.isStravaStreamsSynced) && <TableCell style={styles.editCell} align="center">
+                        <MoreHorizIcon onClick={this.setEditMode} />
                     </TableCell>}
                 {this.props.eventData.key.startsWith('empty_') && <EditEventDialog noOfEvents={this.props.eventsOfDay.length} open={this.state.openEditEventDialog} onClose={this.handleCloseEditEventDialog} emptyDay={true} skada={this.state.skada} sjuk={this.state.sjuk} isFirstEvent={this.props.eventData.dateRowSpan > 0 ? true : false}/>}
                 {!this.props.eventData.key.startsWith('empty_') && <EditEventDialog noOfEvents={this.props.eventsOfDay.length} open={this.state.openEditEventDialog} onClose={this.handleCloseEditEventDialog} emptyDay={false} skada={this.state.skada} sjuk={this.state.sjuk} isFirstEvent={this.props.eventData.dateRowSpan > 0 ? true : false}/>}
@@ -521,7 +531,7 @@ class WeekEvent extends React.Component {
 
                 {(this.state.isEditing && !this.props.eventData.plannedIsHidden) && <TableCell style={styles.cell}><TextField variant="outlined" multiline={true} fullWidth={true} rows={3} value={this.state.namePlanned} onChange={(e) => this.setState({ namePlanned: e.target.value })} name="namePlannedField"/></TableCell>}
                 {(this.state.isEditing && !this.props.eventData.plannedIsHidden) && <TableCell style={styles.cell}>
-                    <Select defaultValue={this.props.eventData.typePlanned === undefined ? '' : this.props.eventData.typePlanned} onChange={(e) => this.setState({ typePlanned: e.target.value })}>
+                    <Select defaultValue={(this.props.eventData.typePlanned === undefined || this.props.eventData.typePlanned === null) ? '' : this.props.eventData.typePlanned} onChange={(e) => this.setState({ typePlanned: e.target.value })}>
                         <MenuItem value="ol"><img src={process.env.PUBLIC_URL + '/olskarm.png'} alt="OL" height={16} width={16}/><span>OL</span></MenuItem>
                         <MenuItem value="night"><NightsStayIcon/><span>Natt-OL</span></MenuItem>
                         <MenuItem value="Run"><DirectionsRunOutlinedIcon/><span>Löpning</span></MenuItem>
@@ -540,7 +550,8 @@ class WeekEvent extends React.Component {
                 {(this.state.isEditing && !this.props.eventData.plannedIsHidden) && <TableCell style={styles.dataCell}><TextField variant="outlined" fullWidth={true} value={this.state.movingTimePlanned} onChange={this.correctPlannedMovingTime} error={this.validatePlannedMovingTime()} helperText={this.validatePlannedMovingTime() ? 'Fel' : ' '}/></TableCell>}
 
 
-                {(!this.state.isEditing && !this.props.performedIsHidden) && <TableCell style={styles.cell}>{this.props.eventData.name}</TableCell>}
+                {(!this.state.isEditing && !this.props.performedIsHidden && this.props.eventData.isStravaStreamsSynced) && <TableCell style={styles.cell}><Link href="#" onClick={this.showDetails}>{this.props.eventData.name}</Link></TableCell>}
+                {(!this.state.isEditing && !this.props.performedIsHidden && !this.props.eventData.isStravaStreamsSynced) && <TableCell style={styles.cell}>{this.props.eventData.name}</TableCell>}
                 {(!this.state.isEditing && !this.props.performedIsHidden && this.state.type === '') && <TableCell align="center" style={styles.cell}>&nbsp;</TableCell>}
                 {(!this.state.isEditing && !this.props.performedIsHidden && this.state.type !== '') && <TableCell align="center" style={styles.cell}>{getTypeIcon(this.props.eventData.type)}</TableCell>}
                 {(!this.state.isEditing && !this.props.performedIsHidden && this.props.eventData.ol === 1) && <TableCell align="center" style={styles.smallCell}><Checkbox checked={true} disabled style={styles.checkbox}/></TableCell>}

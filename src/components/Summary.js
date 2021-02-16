@@ -4,6 +4,7 @@ import 'moment/locale/sv';
 import Week from './Week';
 import Month from './Month';
 import Statistics from './Statistics';
+import EventDetails from './EventDetails';
 
 const Summary = props => {
     moment.locale('sv');
@@ -17,6 +18,7 @@ const Summary = props => {
                 <div className="row">
                 <Week 
                     activities={props.activities} 
+                    setDetailsTab={props.setDetailsTab}
                     days={props.days}
                     dateStart={props.dateStart}
                     dateEnd={props.dateEnd}
@@ -45,18 +47,27 @@ const Summary = props => {
                 </div>
             </div>
         );
-    } else {
-        // Statistik
+    } else if (props.selectedTab === 'stat') {
         return (
             <div className="row">
-            <Statistics
-                activities={props.activities} 
-                dateStart={props.dateStart}
-                dateEnd={props.dateEnd}
-                user={props.user}
-            />
-        </div>
-)
+                <Statistics
+                    activities={props.activities} 
+                    dateStart={props.dateStart}
+                    dateEnd={props.dateEnd}
+                    user={props.user}
+                />
+            </div>
+        )
+    } else {
+        // Träningar
+        return (
+            <div className="row">
+                <EventDetails 
+                    selectedEvent={props.selectedEvent}
+                    user={props.user}
+                />
+            </div>
+        );
     }
 }
 

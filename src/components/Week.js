@@ -143,6 +143,7 @@ class Week extends React.Component {
             const days = this.props.days.filter( (event) => moment(event.startDate).isSame(dateToPrint, 'day') );
             daysToShow.push(<WeekDay 
                     key={dateToPrint} 
+                    setDetailsTab={this.props.setDetailsTab}
                     date={dateToPrint.format('YYYY-MM-DD')} 
                     dayName={dateToPrint.locale('sv').format('dddd').charAt(0).toUpperCase() + dateToPrint.locale('sv').format('dddd').slice(1)}
                     events={events} 

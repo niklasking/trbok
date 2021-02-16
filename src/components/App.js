@@ -49,6 +49,7 @@ class App extends React.Component {
         end = moment(end).add(1, 'd').format('YYYY-MM-DD');
         const url = backendBaseUrl + '/api/v1/activities?dateStart=' + start + '&dateEnd=' + end + '&user=' + this.state.loggedInUser._id;
         const response = await axios.get(url);
+//        console.log(response.data);
         return response.data;
     }
     fetchDays = async (start, end) => {
