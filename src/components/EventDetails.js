@@ -6,7 +6,7 @@ import EventDiagram from './EventDiagram';
 import EventMap from './EventMap';
 
 //const backendBaseUrl = 'http://localhost:3333';
-const backendBaseUrl = 'https://trbokbackend.niklasking.com';
+//const backendBaseUrl = 'https://trbokbackend.niklasking.com';
 
 class EventDetails extends React.Component {
     state = {
@@ -19,6 +19,7 @@ class EventDetails extends React.Component {
         wattsData: []
     }
     componentDidMount = async () => {
+/*
         const url = backendBaseUrl + '/api/v1/activities/' + this.props.selectedEvent + '/details';
         const event = await axios.get(url);
 //        console.log(event.data.latlngValues.data);
@@ -42,8 +43,9 @@ class EventDetails extends React.Component {
             this.setState({wattsData: event.data.wattsValues.data})
         }
         this.setState({loading: false});
+*/
     }
-
+/*
     render() {
         return <div>
                     {this.state.loading && <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}><CircularProgress />&nbsp;&nbsp;Hämtar data. Vänligen vänta.</div>}
@@ -53,6 +55,17 @@ class EventDetails extends React.Component {
                     {this.state.velocityData.length > 0 && <EventDiagram data={this.state.velocityData} xAxisTitle="distans" yAxisTitle="fart"/>}
                     {this.state.cadenceData.length > 0 && <EventDiagram data={this.state.cadenceData} xAxisTitle="distans" yAxisTitle="kadens"/>}
                     {this.state.wattsData.length > 0 && <EventDiagram data={this.state.wattsData} xAxisTitle="distans" yAxisTitle="effekt"/>}
+                </div>
+    }
+*/
+    render() {
+        return <div>
+                    <EventMap eventId={this.props.selectedEvent}/>
+                    <EventDiagram key='heartrate' eventId={this.props.selectedEvent} type='heartrate' xAxisTitle="distans" yAxisTitle="puls"/>
+                    <EventDiagram key='altitude' eventId={this.props.selectedEvent} type='altitude' xAxisTitle="distans" yAxisTitle="höjd"/>
+                    <EventDiagram key='velocity' eventId={this.props.selectedEvent} type='velocity' xAxisTitle="distans" yAxisTitle="fart"/>
+                    <EventDiagram key='cadence' eventId={this.props.selectedEvent} type='cadence' xAxisTitle="distans" yAxisTitle="kadens"/>
+                    <EventDiagram key='watt' eventId={this.props.selectedEvent} type='watt' xAxisTitle="distans" yAxisTitle="effekt"/>
                 </div>
     }
 }
