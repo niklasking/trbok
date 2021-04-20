@@ -4,6 +4,7 @@ import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import EventDiagram from './EventDiagram';
 import EventMap from './EventMap';
+import WebMap from './WebMap';
 
 //const backendBaseUrl = 'http://localhost:3333';
 //const backendBaseUrl = 'https://trbokbackend.niklasking.com';
@@ -60,7 +61,7 @@ class EventDetails extends React.Component {
 */
     render() {
         return <div>
-                    <EventMap eventId={this.props.selectedEvent}/>
+                    <WebMap eventId={this.props.selectedEvent}/>
                     <EventDiagram key='heartrate' eventId={this.props.selectedEvent} type='heartrate' xAxisTitle="distans" yAxisTitle="puls"/>
                     <EventDiagram key='altitude' eventId={this.props.selectedEvent} type='altitude' xAxisTitle="distans" yAxisTitle="höjd"/>
                     <EventDiagram key='velocity' eventId={this.props.selectedEvent} type='velocity' xAxisTitle="distans" yAxisTitle="fart"/>
